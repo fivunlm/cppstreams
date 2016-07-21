@@ -22,11 +22,11 @@ And finally use the method *collect*. It receives an optional limit parameter to
 
 <code> .collect()</code>
 
-*collect* will return a new list with the applyed functions.
+*collect* will return a new list with the applied functions.
 
 ## Motivation
 
-For the full story check this [Medium post](https://medium.com/@lopez.fernando.damian/la-biblioteca-no-levanta-b536a8e53529#.9hp7uvvrv).
+For the full story check this [Medium post](https://medium.com/@lopez.fernando.damian/java-8-streams-c-port-9aaaed28b81a#.qml1he9ez).
 
 ## TODO
 
