@@ -30,7 +30,7 @@ For the full story check this [Medium post](https://medium.com/@lopez.fernando.d
 
 ## TODO
 
-There are so many thing to improve, here are some:
+There are so many things to add and improve, here are some:
 
 * Work with standard vector
 * Work with standard map
