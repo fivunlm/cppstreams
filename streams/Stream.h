@@ -40,6 +40,8 @@ public:
     Stream<T> & filter(std::function<bool (const T&)> func);
     std::list<T> collect(int iLimit = -1);
 
+    static Stream<T> makeStream(std::list<T> & lOriginal);
+
 private:
 
     std::vector<std::function<T (const T&)> > m_vMapOperations;
@@ -48,6 +50,13 @@ private:
     std::list<PipelineOperation> m_lPipeline;
     std::list<T> & m_lOriginal;
 };
+
+template<class T>
+Stream<T> Stream<T>::makeStream(std::list<T> & lOriginal)
+{
+    Stream<T> oStream(lOriginal);
+    return oStream;
+}
 
 template<class T>
 Stream<T> &Stream<T>::map(std::function<T(const T &)> func) {

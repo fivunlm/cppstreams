@@ -28,9 +28,8 @@ int main() {
 
     cout << "------------------------------------------------" << endl;
     cout << "Test get a list with the double of even values" << endl;
-    Stream<int> oStream(lTestList);
 
-    list<int> lTest1 = oStream.filter([](const int &iValue) { return iValue % 2 == 0; })
+    list<int> lTest1 = Stream<int>::makeStream(lTestList).filter([](const int &iValue) { return iValue % 2 == 0; })
             .map([](const int &iValue) { return iValue * 2; })
             .collect();
     printListOfInts(lTest1);

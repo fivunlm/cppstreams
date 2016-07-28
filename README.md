@@ -10,6 +10,10 @@ To use it just create a stream object from a list:
 
 <code> Stream<int> oStream(lTestList); </code>
 
+or you can just use makeStream static method:
+
+<code> Stream<int>::makeStream(lTestList) </code>
+
 Then apply as many *map* and/or *filter* as needed:
 
 <code> 
@@ -36,7 +40,7 @@ There are so many things to add and improve, here are some:
 * Work with standard map
 * Work with standard set
 * Work with standard queue?
-* Test it with real objects and structs
+* Test it with containers of complex objects and structs
 * Add more tests.
 * Add *reduce* method
 * Add *sum*
