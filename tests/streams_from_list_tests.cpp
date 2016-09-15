@@ -71,3 +71,42 @@ TEST_F(StreamsFromListTests, StreamsFromListTests_MapLambdaWorks_Test) {
     ASSERT_EQ(lResult.front(), 18);
     lResult.pop_front();
 }
+
+
+TEST_F(StreamsFromListTests, StreamsFromListTests_FilterWorks_Test) {
+    std:list<int> lResult = Stream<int>::makeStream(m_lTestList)
+        .filter([](const int & iValue) { return iValue % 2 == 0; } )
+        .collect();
+
+    ASSERT_EQ(lResult.size(), 5);
+
+    ASSERT_EQ(lResult.front(), 0);
+    lResult.pop_front();
+    ASSERT_EQ(lResult.front(), 2);
+    lResult.pop_front();
+    ASSERT_EQ(lResult.front(), 4);
+    lResult.pop_front();
+    ASSERT_EQ(lResult.front(), 6);
+    lResult.pop_front();
+    ASSERT_EQ(lResult.front(), 8);
+    lResult.pop_front();
+}
+
+
+TEST_F(StreamsFromListTests, CollectLimitWorks) {
+    std:list<int> lResult = Stream<int>::makeStream(m_lTestList)
+        .collect(5);
+
+    ASSERT_EQ(lResult.size(), 5);
+
+    ASSERT_EQ(lResult.front(), 0);
+    lResult.pop_front();
+    ASSERT_EQ(lResult.front(), 1);
+    lResult.pop_front();
+    ASSERT_EQ(lResult.front(), 2);
+    lResult.pop_front();
+    ASSERT_EQ(lResult.front(), 3);
+    lResult.pop_front();
+    ASSERT_EQ(lResult.front(), 4);
+    lResult.pop_front();
+}
