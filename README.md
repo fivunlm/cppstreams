@@ -42,9 +42,8 @@ There are so many things to add and improve, here are some:
 * Work with standard queue?
 * Test it with containers of complex objects and structs
 * Add *reduce* method
-* Add *sum*
 * Add *forEach*
-* Add *findFirst* and *findAny*
+* Add *findAny*
 * Infinite streams
 * Check performance
 * Improve build process
