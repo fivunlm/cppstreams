@@ -93,7 +93,7 @@ TEST_F(StreamsFromListTests, StreamsFromListTests_FilterWorks_Test) {
 }
 
 
-TEST_F(StreamsFromListTests, CollectLimitWorks) {
+TEST_F(StreamsFromListTests, StreamsFromListTests_CollectLimitWorks_Test) {
     std:list<int> lResult = Stream<int>::makeStream(m_lTestList)
         .collect(5);
 
@@ -109,4 +109,11 @@ TEST_F(StreamsFromListTests, CollectLimitWorks) {
     lResult.pop_front();
     ASSERT_EQ(lResult.front(), 4);
     lResult.pop_front();
+}
+
+TEST_F(StreamsFromListTests, StreamsFromListTests_SumAlistOfIntegers_Test) {
+    int iResult = Stream<int>::makeStream(m_lTestList)
+        .sum();
+
+    ASSERT_EQ(iResult, 45);
 }

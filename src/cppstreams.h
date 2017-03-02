@@ -10,6 +10,7 @@
 #include <vector>
 #include <functional>
 #include <iostream>
+#include <numeric>
 
 // Pipeline operation types
 enum Type {
@@ -39,6 +40,7 @@ public:
     Stream<T> & map(std::function<T (const T&)>  func);
     Stream<T> & filter(std::function<bool (const T&)> func);
     std::list<T> collect(int iLimit = -1);
+    T sum(T initiator = 0);
 
     static Stream<T> makeStream(std::list<T> & lOriginal);
 
@@ -112,6 +114,13 @@ std::list<T> Stream<T>::collect(int iLimit) {
     }
     return lResult;
 }
+
+template<class T>
+T Stream<T>::sum(T initiator) {
+    std::list<T> lResult = collect();
+    return std::accumulate(lResult.begin(), lResult.end(), initiator);
+}
+
 
 
 #endif //CPPSTREAMS_STREAM_H
