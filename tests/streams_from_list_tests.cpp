@@ -117,3 +117,10 @@ TEST_F(StreamsFromListTests, StreamsFromListTests_SumAlistOfIntegers_Test) {
 
     ASSERT_EQ(iResult, 45);
 }
+
+TEST_F(StreamsFromListTests, StreamsFromListTests_FindFirst_Test) {
+    int iResult = Stream<int>::makeStream(m_lTestList)
+            .findFirst([] (int i) { return i > 0 && i % 2 == 0; });
+
+    ASSERT_EQ(iResult, 2);
+}
