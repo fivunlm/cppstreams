@@ -31,15 +31,15 @@ struct PipelineOperation {
 };
 
 
-template<class T>
+template<typename T>
 class Stream {
 
 public:
-    Stream(std::list<T> &lOriginal) : m_lOriginalList(lOriginal) {}
+    Stream(const std::list<T> &lOriginal) : originalList(lOriginal) {}
 
-    Stream<T> &map(std::function<T(const T &)> func);
+    Stream<T>& map(std::function<T(const T &)> func);
 
-    Stream<T> &filter(std::function<bool(const T &)> func);
+    Stream<T>& filter(std::function<bool(const T &)> func);
 
     std::list<T> collect(int iLimit = -1);
 
@@ -51,61 +51,57 @@ public:
 
 private:
 
-    std::vector<std::function<T(const T &)> > m_vMapOperations;
-    std::vector<std::function<bool(const T &)> > m_vFilterOperations;
+    std::vector<std::function<T(const T &)> > mapOperations;
+    std::vector<std::function<bool(const T &)> > filterOperations;
 
-    std::list<PipelineOperation> m_lPipeline;
-    std::list<T> &m_lOriginalList;
+    std::list<PipelineOperation> pipeline;
+    const std::list<T> & originalList;
 };
 
-template<class T>
+template<typename T>
 Stream<T> Stream<T>::makeStream(std::list<T> &lOriginal) {
     Stream<T> oStream(lOriginal);
     return oStream;
 }
 
-template<class T>
+template<typename T>
 Stream<T> &Stream<T>::map(std::function<T(const T &)> func) {
-    m_vMapOperations.push_back(func);
-    m_lPipeline.push_back(PipelineOperation::makeOperation(m_vMapOperations.size() - 1, MAP));
+    mapOperations.push_back(func);
+    pipeline.push_back(PipelineOperation::makeOperation(mapOperations.size() - 1, MAP));
     return *this;
 }
 
-template<class T>
+template<typename T>
 Stream<T> &Stream<T>::filter(std::function<bool(const T &)> func) {
-    m_vFilterOperations.push_back(func);
-    m_lPipeline.push_back(PipelineOperation::makeOperation(m_vFilterOperations.size() - 1, FILTER));
+    filterOperations.push_back(func);
+    pipeline.push_back(PipelineOperation::makeOperation(filterOperations.size() - 1, FILTER));
     return *this;
 }
 
-template<class T>
+template<typename T>
 std::list<T> Stream<T>::collect(int iLimit) {
 
     std::list<T> lResult;
-    iLimit = iLimit > 0 ? iLimit : m_lOriginalList.size();
+    iLimit = iLimit > 0 ? iLimit : originalList.size();
 
     // Loop through each input value (ONLY ONCE!) and operate if needed
-    for (typename std::list<T>::iterator itOriginal = m_lOriginalList.begin();
-         itOriginal != m_lOriginalList.end();
-         ++itOriginal) {
+    for (const auto& value : originalList) {
 
         // if we reach the limit, just break
         if (lResult.size() == iLimit) break;
 
-        T aux = *itOriginal; // T object should override operator equals
+        T aux = value; // T object should override operator equals
         bool bLastFilterResult = true;
 
         // Go through each operation on the pipeline and execute the lambdas
-        for (std::list<PipelineOperation>::iterator itOperation = m_lPipeline.begin();
-             itOperation != m_lPipeline.end() && bLastFilterResult;
-             ++itOperation) {
+        for (const auto& operation : pipeline) {
 
-            switch (itOperation->eType) {
+            switch (operation.eType) {
                 case MAP:
-                    aux = m_vMapOperations[itOperation->iIndex](aux);
+                    aux = mapOperations[operation.iIndex](aux);
                     break;
                 case FILTER:
-                    bLastFilterResult = m_vFilterOperations[itOperation->iIndex](aux);
+                    bLastFilterResult = filterOperations[operation.iIndex](aux);
                     break;
             }
 
@@ -119,19 +115,17 @@ std::list<T> Stream<T>::collect(int iLimit) {
     return lResult;
 }
 
-template<class T>
+template<typename T>
 T Stream<T>::findFirst(std::function<bool(const T &)> func, T defaultValue) {
     std::list<T> lResult = collect();
-    for (typename std::list<T>::iterator itOriginal = m_lOriginalList.begin();
-         itOriginal != m_lOriginalList.end();
-         ++itOriginal) {
-        if (func(*itOriginal))
-            return *itOriginal;
+    for (const auto& value : originalList ) {
+        if (func(value))
+            return value;
     }
     return defaultValue;
 }
 
-template<class T>
+template<typename T>
 T Stream<T>::sum(T initiator) {
     std::list<T> lResult = collect();
     return std::accumulate(lResult.begin(), lResult.end(), initiator);

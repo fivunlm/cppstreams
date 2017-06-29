@@ -37,9 +37,6 @@ For the full story check this [Medium post](https://medium.com/@lopez.fernando.d
 There are so many things to add and improve, here are some:
 
 * Work with standard vector
-* Work with standard map
-* Work with standard set
-* Work with standard queue?
 * Test it with containers of complex objects and structs
 * Add *reduce* method
 * Add *forEach*
