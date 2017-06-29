@@ -14,7 +14,7 @@ add_subdirectory(src)
 
 # MAIN
 include_directories(src)
-set(SOURCE_FILES main.cpp tests/streams_from_list_tests.cpp)
+set(SOURCE_FILES main.cpp tests/streams_from_list_tests.cpp tests/streams_from_vector_tests.cpp)
 add_executable(main ${SOURCE_FILES})
 target_link_libraries(main cppstreams gtest gtest_main)
 
