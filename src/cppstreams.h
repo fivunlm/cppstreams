@@ -110,7 +110,7 @@ Container Stream<T, Container>::collect(int limit) {
         if (!wasFiltered)
             continue;
 
-        result.push_back(aux);
+        result.insert(result.end(), aux);
     }
     return result;
 }
