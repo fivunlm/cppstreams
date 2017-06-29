@@ -67,7 +67,7 @@ TEST_F(StreamsFromVectorTests, StreamsFromVectorTests_CollectLimitWorks_Test) {
     ASSERT_EQ(resultVector[4], 4);
 }
 
-TEST_F(StreamsFromVectorTests, StreamsFromVectorTests_SumAlistOfIntegers_Test) {
+TEST_F(StreamsFromVectorTests, StreamsFromVectorTests_SumAVectorOfIntegers_Test) {
     vector<int> testVector{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     int sum = Stream<int, std::vector<int> >::makeStream(testVector)
             .sum();
