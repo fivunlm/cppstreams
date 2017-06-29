@@ -19,35 +19,35 @@ enum Type {
 };
 
 struct PipelineOperation {
-    int iIndex;
-    enum Type eType;
+    int index;
+    enum Type type;
 
-    static PipelineOperation makeOperation(int iIndex, enum Type eType) {
-        PipelineOperation sAux;
-        sAux.iIndex = iIndex;
-        sAux.eType = eType;
-        return sAux;
+    static PipelineOperation makeOperation(int index, enum Type type) {
+        PipelineOperation operation;
+        operation.index = index;
+        operation.type = type;
+        return operation;
     }
 };
 
 
-template<typename T>
+template<typename T, typename Container>
 class Stream {
 
 public:
-    Stream(const std::list<T> &lOriginal) : originalList(lOriginal) {}
+    Stream(const Container &original) : originalContainer(original) {}
 
-    Stream<T>& map(std::function<T(const T &)> func);
+    Stream<T, Container>& map(std::function<T(const T &)> func);
 
-    Stream<T>& filter(std::function<bool(const T &)> func);
+    Stream<T, Container>& filter(std::function<bool(const T &)> func);
 
-    std::list<T> collect(int iLimit = -1);
+    Container collect(int limit = -1);
 
-    T sum(T initiator = 0);
+    T sum(T startValue = 0);
 
-    T findFirst(std::function<bool(const T &)> func, T defaultValue = 0);
+    T findFirst(std::function<bool(const T &)> func, T defaultValue);
 
-    static Stream<T> makeStream(std::list<T> &lOriginal);
+    static Stream<T, Container> makeStream(const Container& original);
 
 private:
 
@@ -55,80 +55,80 @@ private:
     std::vector<std::function<bool(const T &)> > filterOperations;
 
     std::list<PipelineOperation> pipeline;
-    const std::list<T> & originalList;
+    const Container & originalContainer;
 };
 
-template<typename T>
-Stream<T> Stream<T>::makeStream(std::list<T> &lOriginal) {
-    Stream<T> oStream(lOriginal);
+template<typename T, typename Container>
+Stream<T, Container> Stream<T, Container>::makeStream(const Container& original) {
+    Stream<T, Container> oStream(original);
     return oStream;
 }
 
-template<typename T>
-Stream<T> &Stream<T>::map(std::function<T(const T &)> func) {
+template<typename T, typename Container>
+Stream<T, Container> &Stream<T, Container>::map(std::function<T(const T &)> func) {
     mapOperations.push_back(func);
     pipeline.push_back(PipelineOperation::makeOperation(mapOperations.size() - 1, MAP));
     return *this;
 }
 
-template<typename T>
-Stream<T> &Stream<T>::filter(std::function<bool(const T &)> func) {
+template<typename T, typename Container>
+Stream<T, Container> &Stream<T, Container>::filter(std::function<bool(const T &)> func) {
     filterOperations.push_back(func);
     pipeline.push_back(PipelineOperation::makeOperation(filterOperations.size() - 1, FILTER));
     return *this;
 }
 
-template<typename T>
-std::list<T> Stream<T>::collect(int iLimit) {
+template<typename T, typename Container>
+Container Stream<T, Container>::collect(int limit) {
 
-    std::list<T> lResult;
-    iLimit = iLimit > 0 ? iLimit : originalList.size();
+    Container result;
+    limit = limit > 0 ? limit : originalContainer.size();
 
     // Loop through each input value (ONLY ONCE!) and operate if needed
-    for (const auto& value : originalList) {
+    for (const auto& value : originalContainer) {
 
         // if we reach the limit, just break
-        if (lResult.size() == iLimit) break;
+        if (result.size() == limit) break;
 
         T aux = value; // T object should override operator equals
-        bool bLastFilterResult = true;
+        bool wasFiltered = true;
 
         // Go through each operation on the pipeline and execute the lambdas
         for (const auto& operation : pipeline) {
 
-            switch (operation.eType) {
+            switch (operation.type) {
                 case MAP:
-                    aux = mapOperations[operation.iIndex](aux);
+                    aux = mapOperations[operation.index](aux);
                     break;
                 case FILTER:
-                    bLastFilterResult = filterOperations[operation.iIndex](aux);
+                    wasFiltered = filterOperations[operation.index](aux);
                     break;
             }
 
         }
         // So if the filter filters there is no reason to keep this value on the output
-        if (!bLastFilterResult)
+        if (!wasFiltered)
             continue;
 
-        lResult.push_back(aux);
+        result.push_back(aux);
     }
-    return lResult;
+    return result;
 }
 
-template<typename T>
-T Stream<T>::findFirst(std::function<bool(const T &)> func, T defaultValue) {
-    std::list<T> lResult = collect();
-    for (const auto& value : originalList ) {
+template<typename T, typename Container>
+T Stream<T, Container>::findFirst(std::function<bool(const T &)> func, T defaultValue) {
+    Container lResult = collect();
+    for (const auto& value : originalContainer ) {
         if (func(value))
             return value;
     }
     return defaultValue;
 }
 
-template<typename T>
-T Stream<T>::sum(T initiator) {
-    std::list<T> lResult = collect();
-    return std::accumulate(lResult.begin(), lResult.end(), initiator);
+template<typename T, typename Container>
+T Stream<T, Container>::sum(T startValue) {
+    Container collected = collect();
+    return std::accumulate(collected.begin(), collected.end(), startValue);
 }
 
 
