@@ -1,8 +1,8 @@
 # Java 8 Streams C++ port
 
-This is a very simple implementation of the behaviour of Java 8 Streams.
+This is an e implementation of the behaviour of Java 8 Streams.
 
-The idea is to have a strema class that can handle **filter**, **map** and **collect** methods. It should operate over STL containers. And it would let you chain operations in a efficient way by pipelining them.
+The idea is to have a strem class that can handle **filter**, **map** and **collect** methods. It should operate over STL containers. And it would let you chain operations in a efficient way by pipelining them.
 
 This STL containers have been tested:
 * list
@@ -13,25 +13,33 @@ This STL containers have been tested:
 
 To use it just create a stream object, it needs two template arguments. First the stream contained object type, then the original container type. here is an example using a list of ints:
 
-<code> Stream<int, std::list<int> > oStream(testList); </code>
+``` Stream<int, std::list<int> > oStream(testList); ```
 
 or you can just use makeStream static method:
 
-<code> Stream<int, std::list<int> >::makeStream(testList) </code>
+``` Stream<int, std::list<int> >::makeStream(testList) ```
 
 Then chain as many *map* and/or *filter* as needed:
 
-<code> 
-oStream.filter([](const int &iValue) { return iValue % 2 == 0; })<br>
-       .map([](const int &iValue) { return iValue * 2; })<br>
+``` 
+oStream.filter([](const int &iValue) { return iValue % 2 == 0; })
+       .map([](const int &iValue) { return iValue * 2; })
        .map([](const int &iValue) { return iValue + 3; })
-</code>
+```
 
 And finally use the method *collect*. It receives an optional limit parameter to get a restricted set of the original list
 
-<code> .collect()</code>
+``` .collect()</code> ```
 
 *collect* will return a new list with the applied functions.
+
+There are all the methods available
+
+| filter(<lambda expression>) | Filter stream elements |
+| map(<lambda expression>) | Transforms stream elements |
+| collect(limit = 0) | Process pipelined stream operations and return first *limit* elements |
+| sum(startValue = 0) | Accumulate the objects of the stream |
+| findFirst(<lambda expression>) | Returns the first element |
 
 There are several other methods like *sum* to accumulate the objects of the stream, *findFirst* to find first occurrence given a predicate. And more are coming.
 
@@ -41,13 +49,13 @@ For the full story check this [Medium post](https://medium.com/@lopez.fernando.d
 
 ## TODO
 
-There are so many things to add and improve, here are some:
+There are a lot of things still to do:
 
 * Test it with containers of complex objects and structs
 * Add *reduce* method
 * Add *forEach*
 * Add *findAny*
 * Infinite streams
-* Check performance
+* Performance analisys
 
 
