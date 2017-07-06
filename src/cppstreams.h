@@ -5,8 +5,6 @@
 #ifndef CPPSTREAMS_STREAM_H
 #define CPPSTREAMS_STREAM_H
 
-
-#include <list>
 #include <vector>
 #include <functional>
 #include <iostream>
@@ -54,7 +52,7 @@ private:
     std::vector<std::function<T(const T &)> > mapOperations;
     std::vector<std::function<bool(const T &)> > filterOperations;
 
-    std::list<PipelineOperation> pipeline;
+    std::vector<PipelineOperation> pipeline;
     const Container & originalContainer;
 };
 
