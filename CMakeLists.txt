@@ -1,24 +1,17 @@
-cmake_minimum_required(VERSION 3.5)
-project(cppstreams_lib CXX)
+cmake_minimum_required(VERSION 3.0.0)
 
-set(CMAKE_VERBOSE_MAKEFILE OFF)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+project(cppstreams_lib VERSION 1.0.0 LANGUAGES CXX)
 
-# Google Tests
-add_subdirectory(lib/googletest)
-enable_testing()
-include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+option(CPPSTREAMS_BuildTests "Build the unit tests" ON)
 
-# CPPSTREAMS LIB
-add_subdirectory(src)
+#set(CMAKE_VERBOSE_MAKEFILE OFF)
+#set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -std=gnu++11")
+set(CPPSTREAMS_SOURCE_DIR   "src/")
 
-# MAIN
-include_directories(src)
-set(SOURCE_FILES main.cpp tests/streams_from_list_tests.cpp tests/streams_from_vector_tests.cpp tests/streams_from_set_tests.cpp)
-add_executable(main ${SOURCE_FILES})
-target_link_libraries(main cppstreams gtest gtest_main)
+add_library(${PROJECT_NAME} INTERFACE)
 
-add_test(
-        NAME main
-        COMMAND main
-)
+if(CPPSTREAMS_BuildTests)
+    enable_testing()
+    include_directories(${CPPSTREAMS_SOURCE_DIR})
+    add_subdirectory(tests)
+endif()

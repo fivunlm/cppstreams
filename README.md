@@ -2,7 +2,7 @@
 
 This is an e implementation of the behaviour of Java 8 Streams.
 
-The idea is to have a strem class that can handle **filter**, **map** and **collect** methods. It should operate over STL containers. And it would let you chain operations in a efficient way by pipelining them.
+The idea is to have a stream class that can handle **filter**, **map** and **collect** methods. It should operate over STL containers. And it would let you chain operations in a efficient way by pipelining them.
 
 This STL containers have been tested:
 * list
@@ -64,6 +64,6 @@ There are a lot of things still to do:
 * Add *forEach*
 * Add *findAny*
 * Infinite streams
-* Performance analisys
+* Performance analysis
 
 

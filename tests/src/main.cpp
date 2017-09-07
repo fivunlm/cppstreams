@@ -1,6 +1,6 @@
 #include <iostream>
 #include <list>
-#include "src/cppstreams.cpp"
+#include "../../src/cppstreams.cpp"
 
 
 #include <gtest/gtest.h>

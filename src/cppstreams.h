@@ -10,30 +10,12 @@
 #include <iostream>
 #include <numeric>
 
-// Pipeline operation types
-enum Type {
-    MAP,
-    FILTER
-};
-
-struct PipelineOperation {
-    int index;
-    enum Type type;
-
-    static PipelineOperation makeOperation(int index, enum Type type) {
-        PipelineOperation operation;
-        operation.index = index;
-        operation.type = type;
-        return operation;
-    }
-};
-
 
 template<typename T, typename Container>
 class Stream {
 
 public:
-    Stream(const Container &original) : originalContainer(original) {}
+    explicit Stream (const Container & original) : originalContainer(original) {}
 
     Stream<T, Container>& map(std::function<T(const T &)> func);
 
@@ -48,11 +30,28 @@ public:
     static Stream<T, Container> makeStream(const Container& original);
 
 private:
+    // Pipeline operation types
+    enum class Type {
+        Map,
+        Filter
+    };
 
-    std::vector<std::function<T(const T &)> > mapOperations;
-    std::vector<std::function<bool(const T &)> > filterOperations;
+    struct Operation {
+        int index;
+        enum Type type;
 
-    std::vector<PipelineOperation> pipeline;
+        static Operation makeOperation(int index, enum Type type) {
+            Operation operation;
+            operation.index = index;
+            operation.type = type;
+            return operation;
+        }
+    };
+
+    std::vector<std::function<T(const T &)> > _mapOperations;
+    std::vector<std::function<bool(const T &)> > _filterOperations;
+
+    std::vector<Operation> _pipeline;
     const Container & originalContainer;
 };
 
@@ -63,16 +62,16 @@ Stream<T, Container> Stream<T, Container>::makeStream(const Container& original)
 }
 
 template<typename T, typename Container>
-Stream<T, Container> &Stream<T, Container>::map(std::function<T(const T &)> func) {
-    mapOperations.push_back(func);
-    pipeline.push_back(PipelineOperation::makeOperation(mapOperations.size() - 1, MAP));
+Stream<T, Container> & Stream<T, Container>::map(std::function<T(const T &)> func) {
+    _mapOperations.push_back(func);
+    _pipeline.push_back(Operation::makeOperation(_mapOperations.size() - 1, Type::Map));
     return *this;
 }
 
 template<typename T, typename Container>
-Stream<T, Container> &Stream<T, Container>::filter(std::function<bool(const T &)> func) {
-    filterOperations.push_back(func);
-    pipeline.push_back(PipelineOperation::makeOperation(filterOperations.size() - 1, FILTER));
+Stream<T, Container> & Stream<T, Container>::filter(std::function<bool(const T &)> func) {
+    _filterOperations.push_back(func);
+    _pipeline.push_back(Operation::makeOperation(_filterOperations.size() - 1, Type::Filter));
     return *this;
 }
 
@@ -83,23 +82,23 @@ Container Stream<T, Container>::collect(int limit) {
     limit = limit > 0 ? limit : originalContainer.size();
 
     // Loop through each input value (ONLY ONCE!) and operate if needed
-    for (const auto& value : originalContainer) {
+    for (const auto & value : originalContainer) {
 
         // if we reach the limit, just break
         if (result.size() == limit) break;
 
         T aux = value; // T object should override operator equals
-        bool wasFiltered = true;
+        auto wasFiltered = true;
 
         // Go through each operation on the pipeline and execute the lambdas
-        for (const auto& operation : pipeline) {
+        for (const auto& operation : _pipeline) {
 
             switch (operation.type) {
-                case MAP:
-                    aux = mapOperations[operation.index](aux);
+                case Type::Map:
+                    aux = _mapOperations[operation.index](aux);
                     break;
-                case FILTER:
-                    wasFiltered = filterOperations[operation.index](aux);
+                case Type::Filter:
+                    wasFiltered = _filterOperations[operation.index](aux);
                     break;
             }
 
