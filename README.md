@@ -35,19 +35,19 @@ cp -va .hooks/* .git/hooks/
 
 To use it just create a stream object, it needs two template arguments. First the stream contained object type, then the original container type. here is an example using a list of ints:
 
-```c++
+```cpp
 Stream<int, std::list<int> > oStream(testList);
 ```
 
 or you can just use makeStream static method:
 
-```c++
+```cpp
 Stream<int, std::list<int> >::makeStream(testList)
 ```
 
 Then chain as many *map* and/or *filter* as needed:
 
-```c++
+```cpp
 oStream.filter([](const int &iValue) { return iValue % 2 == 0; })
        .map([](const int &iValue) { return iValue * 2; })
        .map([](const int &iValue) { return iValue + 3; })
@@ -55,7 +55,7 @@ oStream.filter([](const int &iValue) { return iValue % 2 == 0; })
 
 And finally use the method *collect*. It receives an optional limit parameter to get a restricted set of the original list
 
-```c++
+```cpp
 .collect()
 ```
 
