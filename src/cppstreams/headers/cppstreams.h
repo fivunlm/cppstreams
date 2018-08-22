@@ -39,9 +39,9 @@ private:
 
     struct Operation {
         int index;
-        enum Type type;
+        Type type;
 
-        static Operation makeOperation(int index, enum Type type) {
+        static Operation makeOperation(int index, Type type) {
             Operation operation;
             operation.index = index;
             operation.type = type;
