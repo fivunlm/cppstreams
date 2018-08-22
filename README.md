@@ -9,23 +9,45 @@ This STL containers have been tested:
 * vector
 * set
 
+## Cloning
+
+Since this repo is recursive, you need to clone it recursively
+
+```sh
+git clone --recursive https://github.com/fivunlm/cppstreams.git
+```
+
+If you forgot to do that, you can download the submodules later by running
+
+```sh
+git submodule update --init --recursive
+```
+
+### Hooks
+
+This repo also provides a few simple hooks to make working with submodules easier. While it is not necessary to do this step, it is recommended.
+
+```sh
+cp -va .hooks/* .git/hooks/
+```
+
 ## Usage
 
 To use it just create a stream object, it needs two template arguments. First the stream contained object type, then the original container type. here is an example using a list of ints:
 
-```c++ 
-Stream<int, std::list<int> > oStream(testList); 
+```c++
+Stream<int, std::list<int> > oStream(testList);
 ```
 
 or you can just use makeStream static method:
 
-```c++ 
-Stream<int, std::list<int> >::makeStream(testList) 
+```c++
+Stream<int, std::list<int> >::makeStream(testList)
 ```
 
 Then chain as many *map* and/or *filter* as needed:
 
-```c++ 
+```c++
 oStream.filter([](const int &iValue) { return iValue % 2 == 0; })
        .map([](const int &iValue) { return iValue * 2; })
        .map([](const int &iValue) { return iValue + 3; })
@@ -33,8 +55,8 @@ oStream.filter([](const int &iValue) { return iValue % 2 == 0; })
 
 And finally use the method *collect*. It receives an optional limit parameter to get a restricted set of the original list
 
-```c++ 
-.collect() 
+```c++
+.collect()
 ```
 
 *collect* will return a new list with the applied functions.
@@ -65,5 +87,3 @@ There are a lot of things still to do:
 * Add *findAny*
 * Infinite streams
 * Performance analysis
-
-
