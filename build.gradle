@@ -71,7 +71,7 @@ model {
                 cppCompiler.args "-std=c++11", "-Weverything", "-Wno-reserved-id-macro", "-Wno-deprecated-dynamic-exception-spec", "-Wno-c++98-compat", "-Wno-sign-conversion"
             }
             if (toolChain in VisualCpp) {
-                cppCompiler.args "/std:c++11", "/W4", "/FS", "/EHsc"
+                cppCompiler.args "/W4", "/FS", "/EHsc"
             }
 
             if(buildType == buildTypes.debug) {
