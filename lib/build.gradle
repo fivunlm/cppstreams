@@ -1,0 +1,53 @@
+// Project-Type
+apply plugin: "cpp"
+
+model {
+    components {
+        googleTest(NativeLibrarySpec) {
+            if(System.properties['sun.arch.data.model'] == "64") {
+                targetPlatform "x64"
+            } else {
+                targetPlatform "x86"
+            }
+
+            sources.cpp {
+                source {
+                    srcDirs "googletest/googletest"
+                    include "src/**/*.cc"
+                    exclude "src/gtest.cc"
+                }
+                exportedHeaders {
+                    srcDirs "googletest/googletest"
+                    include "src/**/*.h"
+                }
+                exportedHeaders {
+                    srcDirs "googletest/googletest/include"
+                    include "**/*.h"
+                }
+            }
+        }
+    }
+    
+    binaries {
+        withType(SharedLibraryBinarySpec) {
+            buildable = false
+        }
+        withType(StaticLibraryBinarySpec) {
+            if (toolChain in Gcc) {
+                cppCompiler.args "-std=c++11", "-w", "-Ofast", "-g0", "-pthread"
+                linker.args "-pthread"
+            }
+            if (toolChain in Clang) {
+                cppCompiler.args "-std=c++11", "-w", "-Ofast", "-g0", "-pthread"
+                linker.args "-pthread"
+            }
+            if (toolChain in VisualCpp) {
+                cppCompiler.args "/std:c++11", "/W0", "/EHsc", "/O2"
+            }
+        }
+    }
+}
+
+def getLibName(def targetPlatform, String libName) {
+    return targetPlatform.operatingSystem.windows ? "${libName}.lib" : "lib${libName}.a"
+}
