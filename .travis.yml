@@ -1,16 +1,95 @@
 language: cpp
 
-dist: trusty
+git:
+  depth: false
+
 sudo: required
-group: edge
 
 matrix:
   include:
-
-  - os: linux
-      compiler: gcc
-      env: COMPILER=g++-4.9
+    - os: linux
+      before_install:
+        - eval "${MATRIX_EVAL}"
+        - $CC --version
+        - $CXX --version
+      env:
+        - BUILD_NAME=GCC-4
+        - MATRIX_EVAL="export CC=gcc && export CXX=g++"
+    - os: linux
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: g++-4.9
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env:
+        - BUILD_NAME=GCC-5
+        - MATRIX_EVAL="export CC=gcc-5 && export CXX=g++-5"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+      env:
+        - BUILD_NAME=GCC-6
+        - MATRIX_EVAL="export CC=gcc-6 && export CXX=g++-6"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - BUILD_NAME=GCC-7
+        - MATRIX_EVAL="export CC=gcc-7 && export CXX=g++-7"
+    - os: osx
+      osx_image: xcode9.2
+      before_install:
+        - eval "${MATRIX_EVAL}"
+        - $CC --version
+        - $CXX --version
+      env:
+        - BUILD_NAME=OSX-Clang
+        - MATRIX_EVAL="export CC=clang && export CXX=clang++"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-4.0
+          packages:
+            - clang-4.0
+      env:
+        - BUILD_NAME=Clang-4
+        - MATRIX_EVAL="export CC=clang-4.0 && export CXX=clang++-4.0 && sudo apt-get remove gcc g++"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+      env:
+        - BUILD_NAME=Clang-5
+        - MATRIX_EVAL="export CC=clang-5.0 && export CXX=clang++-5.0 && sudo apt-get remove gcc g++"
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+  - if [[ $CC == gcc* ]]; then sudo update-alternatives --install $(which gcc) gcc $(which $CC) 100; sudo update-alternatives --install $(which g++) g++ $(which $CXX) 100; fi
+  - if [[ $CC == clang* ]]; then sudo update-alternatives --install $(which clang) clang $(which $CC) 100; sudo update-alternatives --install $(which clang++) clang++ $(which $CXX) 100; fi  
+  - $CC --version
+  - $CXX --version
+
+install:
+  - ./gradlew --console=plain
+
+script:
+  - ./gradlew --console=plain assemble
+  - ./gradlew --console=plain check
+
+after_failure:
+  - shopt -s nullglob
+  - tail -n+1 {.,lib}/build/tmp/*{Library,Executable,GoogleTestExe}*/*.txt 
+
