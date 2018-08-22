@@ -5,11 +5,10 @@
 //
 #include <iostream>
 #include <list>
-#include "../../src/cppstreams.cpp"
-
 
 #include <gtest/gtest.h>
 
+#include "cppstreams.h"
 
 int main(int ac, char *av[]) {
     testing::InitGoogleTest(&ac, av);
