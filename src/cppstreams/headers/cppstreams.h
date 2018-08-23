@@ -61,6 +61,7 @@ namespace cppstreams {
 }
 
 // Now the other includes
-
+#include "cppstreams/stream.h"
+#include "cppstreams/iterator.h"
 
 #endif // #ifndef CPPSTREAMS_INCLUDE_GUARD_CPPSTREAMS_H
