@@ -13,7 +13,7 @@
 namespace cppstreams {
 	namespace iterators {
 		// DOCME
-		template<class Container, class T = std::decay_t<decltype(*std::begin( Container() ))>>
+		template<class Container, class T = typename std::decay<decltype(*std::begin( Container() ))>::type>
 		class container_iterator : public iterator<T> {
 		public:
 			// DOCME
