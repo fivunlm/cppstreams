@@ -1,4 +1,4 @@
-# Java 8 Streams C++ port
+# Java 8 Streams C++ port [![Build Status](https://travis-ci.org/fivunlm/cppstreams.svg?branch=master)](https://travis-ci.org/fivunlm/cppstreams)
 
 This is an e implementation of the behaviour of Java 8 Streams.
 

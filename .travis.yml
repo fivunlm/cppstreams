@@ -45,6 +45,16 @@ matrix:
       env:
         - BUILD_NAME=GCC-7
         - MATRIX_EVAL="export CC=gcc-7 && export CXX=g++-7"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+      env:
+        - BUILD_NAME=GCC-8
+        - MATRIX_EVAL="export CC=gcc-8 && export CXX=g++-8"
     - os: osx
       osx_image: xcode9.2
       before_install:
@@ -54,6 +64,32 @@ matrix:
       env:
         - BUILD_NAME=OSX-Clang
         - MATRIX_EVAL="export CC=clang && export CXX=clang++"
+    - os: linux
+      addons:
+        apt:
+          packages:
+            - clang
+      before_install:
+        - eval "${MATRIX_EVAL}"
+        - $CC --version
+        - $CXX --version
+      env:
+        - BUILD_NAME=Clang-3.4
+        - MATRIX_EVAL="export CC=clang && export CXX=clang++ && sudo apt-get remove gcc g++"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-3.9
+          packages:
+            - clang-3.9
+      before_install:
+        - eval "${MATRIX_EVAL}"
+        - $CC --version
+        - $CXX --version
+      env:
+        - BUILD_NAME=Clang-3
+        - MATRIX_EVAL="export CC=clang-3.9 && export CXX=clang++-3.9 && sudo apt-get remove gcc g++"
     - os: linux
       addons:
         apt:
@@ -74,6 +110,17 @@ matrix:
       env:
         - BUILD_NAME=Clang-5
         - MATRIX_EVAL="export CC=clang-5.0 && export CXX=clang++-5.0 && sudo apt-get remove gcc g++"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-6.0
+            - ubuntu-toolchain-r-test
+          packages:
+            - clang-6.0
+      env:
+        - BUILD_NAME=Clang-6
+        - MATRIX_EVAL="export CC=clang-6.0 && export CXX=clang++-6.0 && sudo apt-get remove gcc g++"
 
 before_install:
   - eval "${MATRIX_EVAL}"
