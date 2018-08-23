@@ -1,4 +1,4 @@
-add_subdirectory(thirdparty/googletest)
+add_subdirectory(../lib/googletest/googletest)
 
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
