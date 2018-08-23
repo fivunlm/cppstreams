@@ -21,6 +21,7 @@ namespace cppstreams {
 // Includes
 #include "cppstreams/iterators/iterator.h"
 #include "cppstreams/iterators/array_iterator.h"
+#include "cppstreams/iterators/container_iterator.h"
 
 // Definitions and code
 namespace cppstreams {
