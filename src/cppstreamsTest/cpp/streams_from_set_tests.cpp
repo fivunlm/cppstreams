@@ -1,9 +1,13 @@
 //
-// Created by FernandoDamian on 29/6/2017.
+// Copyright (c) 2016-2018 Fernando Damian Lopez
+// Copyright (c) 2018 Yannick Schinko
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
 //
-#include <cppstreams.h>
-#include <gtest/gtest.h>
 #include <set>
+
+#include <gtest/gtest.h>
+
+#include "cppstreams.h"
 
 using ::testing::Test;
 using namespace std;

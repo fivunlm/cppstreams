@@ -1,0 +1,196 @@
+import java.util.stream.Stream
+import java.util.regex.Pattern
+import java.nio.file.Paths
+import java.nio.file.Files
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:3.13.0"
+    }
+}
+
+// Project-Type
+apply plugin: "cpp"
+// Test Suite
+apply plugin: "google-test"
+// IDEs
+apply plugin: "visual-studio"
+
+apply plugin: "com.diffplug.gradle.spotless"
+
+allprojects {
+    model {
+        platforms {
+            x86 {
+                architecture "x86"
+            }
+            x64 {
+                architecture "x64"
+            }
+        }
+
+        buildTypes {
+            debug
+            release
+        }
+    }
+}
+
+model {
+    visualStudio {
+        solution {
+            solutionFile.location = ".vs/${name}.sln"
+            solutionFile.withContent { TextProvider content ->
+                content.asBuilder().insert(0, "# GENERATED FILE: DO NOT EDIT\n")
+                content.text = content.text.replaceAll("HideSolutionNode = FALSE", "HideSolutionNode = TRUE")
+            }
+        }
+    }
+
+    components {
+        cppstreams(NativeLibrarySpec) {
+            if(System.properties['sun.arch.data.model'] == "64") {
+                targetPlatform "x64"
+            } else {
+                targetPlatform "x86"
+            }
+        }
+    }
+
+    binaries {
+        all {
+            if (toolChain in Gcc) {
+                cppCompiler.args "-std=c++11", "-Wall", "-Wextra", "-fPIC"
+            }
+            if (toolChain in Clang) {
+                cppCompiler.args "-std=c++11", "-Weverything", "-Wno-reserved-id-macro", "-Wno-deprecated-dynamic-exception-spec", "-Wno-c++98-compat", "-Wno-sign-conversion"
+            }
+            if (toolChain in VisualCpp) {
+                cppCompiler.args "/W4", "/FS", "/EHsc"
+            }
+
+            if(buildType == buildTypes.debug) {
+                cppCompiler.define "__DEBUG__"
+
+                if (toolChain in Gcc) {
+                    cppCompiler.args "-Og", "-g3"
+                }
+                if (toolChain in Clang) {
+                    cppCompiler.args "-O0", "-g"
+                }
+                if (toolChain in VisualCpp) {
+                    cppCompiler.args "/Od", "/Z7"
+                }
+            }
+            if(buildType == buildTypes.release) {
+                cppCompiler.define "__NDEBUG__"
+
+                if (toolChain in Gcc) {
+                    cppCompiler.args "-Ofast", "-g0"
+                }
+                if (toolChain in Clang) {
+                    cppCompiler.args "-Ofast", "-g0"
+                }
+                if (toolChain in VisualCpp) {
+                    cppCompiler.args "/O2"
+                }
+            }
+        }
+        withType(GoogleTestTestSuiteBinarySpec) {
+            lib project: ":lib", library: "googleTest", linkage: "static"
+
+            cppCompiler.define "GOOGLE_TEST"
+
+            if (targetPlatform.operatingSystem.linux) {
+                cppCompiler.args "-pthread"
+                linker.args "-pthread"
+            }
+        }
+    }
+}
+
+spotless {
+    format "cpp", {
+        target "src/**/*.h", "src/**/*.cpp"
+
+        licenseHeaderFile "LICENSE-header.txt", "#"
+    }
+}
+
+task doc {
+    dependsOn "generateHTMLdoc"
+    dependsOn "generatePDFdoc"
+}
+
+task generateHTMLdoc(type: Zip, dependsOn: "runDoxygen") {
+    inputs.dir "build/doc/gen/html"
+    outputs.files "build/doc/${project.name}-doc.zip"
+
+    baseName = "${project.name}-doc"
+    version = ""
+    destinationDir = file("build/doc")
+    from "build/doc/gen/html"
+}
+
+task generatePDFdoc(type: Exec, dependsOn: "runDoxygen") {
+    onlyIf {
+        isCommandAvailable("pdflatex") && isCommandAvailable("make")
+    }
+
+    inputs.dir "build/doc/gen/latex"
+    outputs.files "build/doc/${project.name}-doc.pdf"
+
+    doFirst {
+        def log = file("build/tmp/generatePDFdoc/output.txt")
+        log.getParentFile().mkdirs()
+        standardOutput = new FileOutputStream(log)
+        errorOutput = standardOutput
+    }
+
+    doLast {
+        copy {
+            from "build/doc/gen/latex"
+            into "build/doc"
+
+            include "refman.pdf"
+            rename "refman.pdf", "${project.name}-doc.pdf"
+        }
+    }
+
+    workingDir "build/doc/gen/latex"
+    executable "make"
+}
+
+task runDoxygen(type: Exec) {
+    onlyIf {
+        isCommandAvailable("doxygen")
+    }
+
+    inputs.dir "src"
+    inputs.files "Doxyfile"
+    outputs.dirs "build/doc/gen"
+
+    doFirst {
+        def log = file("build/tmp/runDoxygen/output.txt")
+        log.getParentFile().mkdirs()
+        standardOutput = new FileOutputStream(log)
+        file("build/doc/gen").mkdirs()
+    }
+
+    executable "doxygen"
+    args "Doxyfile"
+}
+
+def isCommandAvailable(String exec) {
+    if(System.getProperty("os.name").toLowerCase().contains("windows"))
+        exec += ".exe"
+
+    return Stream.of(System.getenv("PATH").split(Pattern.quote(File.pathSeparator)))
+        .map({file -> Paths.get(file)})
+        .anyMatch({path -> Files.exists(path.resolve(exec))});
+}

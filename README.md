@@ -31,6 +31,24 @@ This repo also provides a few simple hooks to make working with submodules easie
 cp -va .hooks/* .git/hooks/
 ```
 
+## Building
+
+This project uses gradle for building. The nice thing about gradle is that you only need to have Java (and a C++ compiler (Needs support for C++11) of your
+choice) installed.  
+Building is super straight forward:
+
+```sh
+./gradlew build
+```
+
+This will build the project, all its dependencies and perform the test.
+
+Use the following to just build the project and all its dependencies without performing the tests.
+
+```sh
+./gradlew assemble
+```
+
 ## Usage
 
 To use it just create a stream object, it needs two template arguments. First the stream contained object type, then the original container type. here is an example using a list of ints:
