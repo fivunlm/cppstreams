@@ -948,7 +948,11 @@ IMAGE_PATH             =
 # need to set EXTENSION_MAPPING for the extension otherwise the files are not
 # properly processed by doxygen.
 
-INPUT_FILTER           = "sed -e \"s/\/\/ *\(TODO\|FIXME\|DOCME\):* */\/\/\/ \\\\todo /\""
+INPUT_FILTER           = "sed" \
+                         "-e \"s/\/\/ *TODO:\? */\/\/\/ \\\\todo /\"" \
+                         "-e \"s/\/\/ *DOC\( \?ME\| \?IT\|UMENT\)\?\(:\)\? */\/\/\/ \\\\todo Add documentation\\1 /\"" \
+                         "-e \"s/\/\/ *FIX\( \?ME\| \?IT\)\?:\? */\/\/\/ \\\\bug /\"" \
+                         "-e \"s/\/\/ *TEST\( \?ME\| \?IT\)\?:\? */\/\/\/ \\\\test /\""
 
 # The FILTER_PATTERNS tag can be used to specify filters on a per file pattern
 # basis. Doxygen will compare the file name with each pattern and apply the
