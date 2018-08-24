@@ -950,9 +950,9 @@ IMAGE_PATH             =
 
 INPUT_FILTER           = "sed" \
                          "-e \"s/\/\/ *TODO:\? */\/\/\/ \\\\todo /\"" \
-                         "-e \"s/\/\/ *DOC\( \?ME\| \?IT\|UMENT\)\?\(:\)\? */\/\/\/ \\\\todo Add documentation\\1 /\"" \
+                         "-e \"s/\/\/ *DOC\( \?ME\| \?IT\|UMENT\)\?\(:\)\? */\/\/\/ \\\\todo Add documentation\\2 /\"" \
                          "-e \"s/\/\/ *FIX\( \?ME\| \?IT\)\?:\? */\/\/\/ \\\\bug /\"" \
-                         "-e \"s/\/\/ *TEST\( \?ME\| \?IT\)\?:\? */\/\/\/ \\\\test /\""
+                         "-e \"s/\/\/ *TEST\( \?ME\| \?IT\)\?:\? */\/\/\/ \\\\todo Add test\\2 /\""
 
 # The FILTER_PATTERNS tag can be used to specify filters on a per file pattern
 # basis. Doxygen will compare the file name with each pattern and apply the
