@@ -180,12 +180,12 @@ TEST( Iterator_ContainerIterator, List ) {
 	container_test_unsorted<std::list<int> >();
 }
 
-TEST( Iterator_ContainerIterator, Set ) {
-	container_test_sorted_deduplicated<std::set<int> >();
-}
-
 TEST( Iterator_ContainerIterator, Multiset ) {
 	container_test_sorted<std::multiset<int> >();
+}
+
+TEST( Iterator_ContainerIterator, Set ) {
+	container_test_sorted_deduplicated<std::set<int> >();
 }
 
 TEST( Iterator_ContainerIterator, UnorderedSet ) {
@@ -299,4 +299,53 @@ TEST( Iterator_ContainerIterator, UnorderedMap ) {
 
 TEST( Iterator_ContainerIterator, UnorderedMultimap ) {
 	map_test_unordered<std::unordered_multimap<int, int> >();
+}
+
+TEST( Iterator_ContainerIterator, String ) {
+	std::string string("Hi cppstreams!");
+	container_iterator<std::string> it( string );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 'H' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 'i' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), ' ' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 'c' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 'p' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 'p' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 's' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 't' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 'r' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 'e' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 'a' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 'm' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 's' );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), '!' );
+
+	EXPECT_FALSE( it.has_next() );
 }
