@@ -5,7 +5,7 @@
 //
 #include <gtest/gtest.h>
 
-#include "cppstreams/iterators/array_iterator.h"
+#include "cppstreams/iterator.h"
 
 template<class T>
 using array_iterator = cppstreams::iterators::array_iterator<T>;
@@ -19,6 +19,14 @@ TEST( Iterator_ArrayIterator, Constructors ) {
 
 	EXPECT_NO_THROW( array_iterator<int> it( const_array ) );
 	EXPECT_NO_THROW( array_iterator<int> it( const_array, const_array + 3 ) );
+}
+
+TEST( Iterator_ArrayIterator, ConvinienceMethods ) {
+	EXPECT_NO_THROW( cppstreams::get_iterator( array ) );
+	EXPECT_NO_THROW( cppstreams::get_iterator<int>( array, array + 3 ) );
+
+	EXPECT_NO_THROW( cppstreams::get_iterator( const_array ) );
+	EXPECT_NO_THROW( cppstreams::get_iterator<int>( const_array, const_array + 3 ) );
 }
 
 TEST( Iterator_ArrayIterator, Iterating ) {

@@ -37,6 +37,10 @@ namespace cppstreams {
 			virtual bool has_next() const noexcept;
 		};
 
+		// ==============================================================================
+		// Implementation
+		// ==============================================================================
+
 		template<class T>
 		array_iterator<T>::array_iterator( const iterator_type start, const iterator_type end ) :
 			it( start ),

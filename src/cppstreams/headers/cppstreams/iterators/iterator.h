@@ -16,6 +16,9 @@ namespace cppstreams {
 		template<class T>
 		class iterator {
 		public:
+			// DOCME
+			typedef T value_type;
+
 			/**
 			 * Returns the next value from the underlying container.
 			 *

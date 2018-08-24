@@ -19,6 +19,8 @@ namespace cppstreams {
 }
 
 // Includes
+#include <memory>
+
 #include "cppstreams/iterators/iterator.h"
 #include "cppstreams/iterators/array_iterator.h"
 #include "cppstreams/iterators/container_iterator.h"
@@ -30,6 +32,68 @@ namespace cppstreams {
 	/// @copydoc iterators::iterator
 	template<class T>
 	using iterator = iterators::iterator<T>;
+
+	// Convinience Methods
+
+	// DOCME
+	template<class T>
+	std::shared_ptr<iterators::iterator<T> > get_iterator(
+		const typename iterators::array_iterator<T>::iterator_type start,
+		const typename iterators::array_iterator<T>::iterator_type end
+	);
+
+	// DOCME
+	template<class T, std::size_t N>
+	std::shared_ptr<iterators::iterator<T> > get_iterator(
+		const T( &array )[N]
+	);
+
+	// DOCME
+	template<class Container, class T = typename std::decay<decltype(*std::begin( Container() ))>::type>
+	std::shared_ptr<iterators::iterator<T> > get_iterator(
+		const typename iterators::container_iterator<Container, T>::iterator_type start,
+		const typename iterators::container_iterator<Container, T>::iterator_type end
+	);
+
+	// DOCME
+	template<class Container, class T = typename std::decay<decltype(*std::begin( Container() ))>::type>
+	std::shared_ptr<iterators::iterator<T> > get_iterator(
+		const Container& container
+	);
+
+	// ==============================================================================
+	// Implementation
+	// ==============================================================================
+
+	template<class T>
+	std::shared_ptr<iterators::iterator<T> > get_iterator(
+		const typename iterators::array_iterator<T>::iterator_type start,
+		const typename iterators::array_iterator<T>::iterator_type end
+	) {
+		return std::shared_ptr<iterator<T> >( new iterators::array_iterator<T>( start, end ) );
+	}
+
+	template<class T, std::size_t N>
+	std::shared_ptr<iterators::iterator<T> > get_iterator(
+		const T( &array )[N]
+	) {
+		return std::shared_ptr<iterator<T> >( new iterators::array_iterator<T>( array ) );
+	}
+
+	template<class Container, class T>
+	std::shared_ptr<iterators::iterator<T> > get_iterator(
+		const typename iterators::container_iterator<Container, T>::iterator_type start,
+		const typename iterators::container_iterator<Container, T>::iterator_type end
+	) {
+		return std::shared_ptr<iterator<T> >( new iterators::container_iterator<Container, T>( start, end ) );
+	}
+
+	template<class Container, class T>
+	std::shared_ptr<iterators::iterator<T> > get_iterator(
+		const Container& container
+	) {
+		return std::shared_ptr<iterator<T> >( new iterators::container_iterator<Container, T>( container ) );
+	}
 }
 
 #endif // #ifndef CPPSTREAMS_INCLUDE_GUARD_CPPSTREAMS_ITERATOR_H

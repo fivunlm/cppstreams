@@ -16,7 +16,7 @@
 #include <map>
 #include <unordered_map>
 
-#include "cppstreams/iterators/container_iterator.h"
+#include "cppstreams/iterator.h"
 
 template<class T>
 using container_iterator = cppstreams::iterators::container_iterator<T>;
@@ -28,11 +28,19 @@ const std::vector<int> const_vector( { 1, 2, 3 } );
 #define map_values { {3, 1}, {7, 2}, {5, 3}, {1, 4}, {3, 5}, {-5, 6} }
 
 TEST( Iterator_ContainerIterator, Constructors ) {
-	EXPECT_NO_THROW( container_iterator<std::vector<int>> it( vector ) );
-	EXPECT_NO_THROW( container_iterator<std::vector<int>> it( vector.begin(), vector.begin() + 3 ) );
+	EXPECT_NO_THROW( container_iterator<std::vector<int> > it( vector ) );
+	EXPECT_NO_THROW( container_iterator<std::vector<int> > it( vector.begin(), vector.begin() + 3 ) );
 
-	EXPECT_NO_THROW( container_iterator<std::vector<int>> it( const_vector ) );
-	EXPECT_NO_THROW( container_iterator<std::vector<int>> it( const_vector.begin(), const_vector.begin() + 3 ) );
+	EXPECT_NO_THROW( container_iterator<std::vector<int> > it( const_vector ) );
+	EXPECT_NO_THROW( container_iterator<std::vector<int> > it( const_vector.begin(), const_vector.begin() + 3 ) );
+}
+
+TEST( Iterator_ContainerIterator, ConvinienceMethods ) {
+	EXPECT_NO_THROW( cppstreams::get_iterator( vector ) );
+	EXPECT_NO_THROW( cppstreams::get_iterator<std::vector<int> >( vector.begin(), vector.begin() + 3 ) );
+
+	EXPECT_NO_THROW( cppstreams::get_iterator( const_vector ) );
+	EXPECT_NO_THROW( cppstreams::get_iterator<std::vector<int> >( const_vector.begin(), const_vector.begin() + 3 ) );
 }
 
 TEST( Iterator_ContainerIterator, Iterating ) {
