@@ -2,12 +2,33 @@
 
 This is an e implementation of the behaviour of Java 8 Streams.
 
-The idea is to have a stream class that can handle **filter**, **map** and **collect** methods. It should operate over STL containers. And it would let you chain operations in a efficient way by pipelining them.
+The idea is to have a stream class that can handle **filter**, **map** and **collect** methods. It should operate over STL containers. And it would let you
+chain operations in a efficient way by pipelining them.
 
-This STL containers have been tested:
-* list
-* vector
-* set
+These STL containers have been tested:
+* `std::array`
+* `std::deque`
+* `std::forward_list`
+* `std::list`
+* `std::map`
+* `std::multimap`
+* `std::multiset`
+* `std::set`
+* `std::string` (iterating over the `char`s)
+* `std::unordered_map`
+* `std::unordered_multimap`
+* `std::unordered_multiset`
+* `std::unordered_set`
+* `std::vector`
+
+Additionally normal arrays work too.
+
+In fact every container that supports [`std::begin`](https://en.cppreference.com/w/cpp/iterator/begin) and
+[`std::end`](https://en.cppreference.com/w/cpp/iterator/begin) will work.  
+For example all `boost` containers will work. And all containers implementing `begin()` and `end()`. Or all containers that have a template specialization of
+`std::begin` and `std::end`.  
+In short if you can iterate over the container, it'll work.  
+And in the very worst case you can also create your own implementation of `cppstreams::iterators::iterator<T>` to add support for your particular container.
 
 ## Cloning
 
@@ -51,7 +72,8 @@ Use the following to just build the project and all its dependencies without per
 
 ## Usage
 
-To use it just create a stream object, it needs two template arguments. First the stream contained object type, then the original container type. here is an example using a list of ints:
+To use it just create a stream object, it needs two template arguments. First the stream contained object type, then the original container type. here is an
+example using a list of ints:
 
 ```cpp
 Stream<int, std::list<int> > oStream(testList);
