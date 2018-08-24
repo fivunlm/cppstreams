@@ -13,6 +13,9 @@
 #include <unordered_set>
 #include <vector>
 
+#include <map>
+#include <unordered_map>
+
 #include "cppstreams/iterators/container_iterator.h"
 
 template<class T>
@@ -22,6 +25,7 @@ std::vector<int> vector( { 1, 2, 3 } );
 const std::vector<int> const_vector( { 1, 2, 3 } );
 
 #define values { 3, 7, 5, 1, 3, -5 }
+#define map_values { {3, 1}, {7, 2}, {5, 3}, {1, 4}, {3, 5}, {-5, 6} }
 
 TEST( Iterator_ContainerIterator, Constructors ) {
 	EXPECT_NO_THROW( container_iterator<std::vector<int>> it( vector ) );
@@ -149,7 +153,7 @@ void container_test_sorted_deduplicated() {
 	EXPECT_EQ( it.next(), 1 );
 
 	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 3);
+	EXPECT_EQ( it.next(), 3 );
 
 	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 5 );
@@ -196,5 +200,103 @@ TEST( Iterator_ContainerIterator, Vector ) {
 	container_test_unsorted<std::vector<int> >();
 }
 
-// TODO: Implement tests for maps
+template<class T>
+void map_test_sorted() {
+	T container { map_values };
+	container_iterator<T> it( container );
 
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), (std::pair<const int, int>( -5, 6 )) );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), (std::pair<const int, int>( 1, 4 )) );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), (std::pair<const int, int>( 3, 1 )) );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), (std::pair<const int, int>( 3, 5 )) );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), (std::pair<const int, int>( 5, 3 )) );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), (std::pair<const int, int>( 7, 2 )) );
+
+	EXPECT_FALSE( it.has_next() );
+}
+
+template<class T>
+void map_test_sorted_deduplicated() {
+	T container { map_values };
+	container_iterator<T> it( container );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), (std::pair<const int, int>( -5, 6 )) );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), (std::pair<const int, int>( 1, 4 )) );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), (std::pair<const int, int>( 3, 1 )) );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), (std::pair<const int, int>( 5, 3 )) );
+
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), (std::pair<const int, int>( 7, 2 )) );
+
+	EXPECT_FALSE( it.has_next() );
+}
+
+template<class T>
+void map_test_unordered() {
+	T container { map_values };
+	container_iterator<T> it( container );
+
+	std::multimap<int, int> comparator { map_values };
+	std::multimap<int, int>::iterator found;
+
+	for ( int i = 0; i < 6; ++i ) {
+		EXPECT_TRUE( it.has_next() );
+		found = comparator.find( it.next().first );
+		EXPECT_NE( found, comparator.end() );
+		comparator.erase( found );
+	}
+
+	EXPECT_FALSE( it.has_next() );
+}
+
+template<class T>
+void map_test_unordered_deduplicated() {
+	T container { map_values };
+	container_iterator<T> it( container );
+
+	std::map<int, int> comparator { map_values };
+	std::map<int, int>::iterator found;
+
+	for ( int i = 0; i < 5; ++i ) {
+		EXPECT_TRUE( it.has_next() );
+		found = comparator.find( it.next().first );
+		EXPECT_NE( found, comparator.end() );
+		comparator.erase( found );
+	}
+
+	EXPECT_FALSE( it.has_next() );
+}
+
+TEST( Iterator_ContainerIterator, Map ) {
+	map_test_sorted_deduplicated<std::map<int, int> >();
+}
+
+TEST( Iterator_ContainerIterator, Multimap ) {
+	map_test_sorted<std::multimap<int, int> >();
+}
+
+TEST( Iterator_ContainerIterator, UnorderedMap ) {
+	map_test_unordered_deduplicated<std::unordered_map<int, int> >();
+}
+
+TEST( Iterator_ContainerIterator, UnorderedMultimap ) {
+	map_test_unordered<std::unordered_multimap<int, int> >();
+}
