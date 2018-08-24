@@ -36,15 +36,17 @@ TEST( Iterator_ContainerIterator, Iterating ) {
 	container_iterator<std::vector<int>> const_it( const_vector );
 
 	for ( int i = 1; i <= 3; ++i ) {
-		EXPECT_TRUE( it.hasNext() );
-		EXPECT_TRUE( const_it.hasNext() );
+		EXPECT_TRUE( it.has_next() );
+		EXPECT_TRUE( const_it.has_next() );
 
+		EXPECT_EQ( it.peek(), i );
 		EXPECT_EQ( it.next(), i );
+		EXPECT_EQ( const_it.peek(), i );
 		EXPECT_EQ( const_it.next(), i );
 	}
 
-	EXPECT_FALSE( it.hasNext() );
-	EXPECT_FALSE( const_it.hasNext() );
+	EXPECT_FALSE( it.has_next() );
+	EXPECT_FALSE( const_it.has_next() );
 }
 
 template<class T>
@@ -52,25 +54,25 @@ void container_test_unsorted() {
 	T container { values };
 	container_iterator<T> it( container );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 3 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 7 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 5 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 1 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 3 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), -5 );
 
-	EXPECT_FALSE( it.hasNext() );
+	EXPECT_FALSE( it.has_next() );
 }
 
 template<class T>
@@ -78,22 +80,25 @@ void container_test_unsorted_deduplicated() {
 	T container { values };
 	container_iterator<T> it( container );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 3 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
+	EXPECT_EQ( it.next(), 3 );
+
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 7 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 5 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 1 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), -5 );
 
-	EXPECT_FALSE( it.hasNext() );
+	EXPECT_FALSE( it.has_next() );
 }
 
 template<class T>
@@ -101,25 +106,22 @@ void container_test_unsorted_grouped() {
 	T container { values };
 	container_iterator<T> it( container );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 3 );
 
-	EXPECT_TRUE( it.hasNext() );
-	EXPECT_EQ( it.next(), 3 );
-
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 7 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 5 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 1 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), -5 );
 
-	EXPECT_FALSE( it.hasNext() );
+	EXPECT_FALSE( it.has_next() );
 }
 
 template<class T>
@@ -127,25 +129,25 @@ void container_test_sorted() {
 	T container { values };
 	container_iterator<T> it( container );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), -5 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 1 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 3 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 3 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 5 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 7 );
 
-	EXPECT_FALSE( it.hasNext() );
+	EXPECT_FALSE( it.has_next() );
 }
 
 template<class T>
@@ -153,22 +155,22 @@ void container_test_sorted_deduplicated() {
 	T container { values };
 	container_iterator<T> it( container );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), -5 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 1 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 3);
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 5 );
 
-	EXPECT_TRUE( it.hasNext() );
+	EXPECT_TRUE( it.has_next() );
 	EXPECT_EQ( it.next(), 7 );
 
-	EXPECT_FALSE( it.hasNext() );
+	EXPECT_FALSE( it.has_next() );
 }
 
 TEST( Iterator_ContainerIterator, Array ) {

@@ -33,8 +33,8 @@ namespace cppstreams {
 			array_iterator( const T( &array )[N] );
 
 			virtual const T next();
-
-			virtual bool hasNext() const noexcept;
+			virtual const T peek() const noexcept;
+			virtual bool has_next() const noexcept;
 		};
 
 		template<class T>
@@ -53,7 +53,12 @@ namespace cppstreams {
 		}
 
 		template<class T>
-		bool array_iterator<T>::hasNext() const noexcept {
+		const T array_iterator<T>::peek() const noexcept {
+			return *it;
+		}
+
+		template<class T>
+		bool array_iterator<T>::has_next() const noexcept {
 			return it != end;
 		}
 	}

@@ -26,13 +26,15 @@ TEST( Iterator_ArrayIterator, Iterating ) {
 	array_iterator<int> const_it( const_array );
 
 	for ( int i = 1; i <= 3; ++i ) {
-		EXPECT_TRUE( it.hasNext() );
-		EXPECT_TRUE( const_it.hasNext() );
+		EXPECT_TRUE( it.has_next() );
+		EXPECT_TRUE( const_it.has_next() );
 
+		EXPECT_EQ( it.peek(), i );
 		EXPECT_EQ( it.next(), i );
+		EXPECT_EQ( const_it.peek(), i );
 		EXPECT_EQ( const_it.next(), i );
 	}
 
-	EXPECT_FALSE( it.hasNext() );
-	EXPECT_FALSE( const_it.hasNext() );
+	EXPECT_FALSE( it.has_next() );
+	EXPECT_FALSE( const_it.has_next() );
 }
