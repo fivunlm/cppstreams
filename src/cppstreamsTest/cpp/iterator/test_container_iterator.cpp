@@ -76,50 +76,37 @@ void container_test_unsorted() {
 }
 
 template<class T>
-void container_test_unsorted_deduplicated() {
+void container_test_unordered() {
 	T container { values };
 	container_iterator<T> it( container );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 3 );
+	std::multiset<int> comparator { values };
+	std::multiset<int>::iterator found;
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 3 );
-
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 7 );
-
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 5 );
-
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 1 );
-
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), -5 );
+	for ( int i = 0; i < 6; ++i ) {
+		EXPECT_TRUE( it.has_next() );
+		found = comparator.find( it.next() );
+		EXPECT_NE( found, comparator.end() );
+		comparator.erase( found );
+	}
 
 	EXPECT_FALSE( it.has_next() );
 }
 
 template<class T>
-void container_test_unsorted_grouped() {
+void container_test_unordered_deduplicated() {
 	T container { values };
 	container_iterator<T> it( container );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 3 );
+	std::set<int> comparator { values };
+	std::set<int>::iterator found;
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 7 );
-
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 5 );
-
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 1 );
-
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), -5 );
+	for ( int i = 0; i < 5; ++i ) {
+		EXPECT_TRUE( it.has_next() );
+		found = comparator.find( it.next() );
+		EXPECT_NE( found, comparator.end() );
+		comparator.erase( found );
+	}
 
 	EXPECT_FALSE( it.has_next() );
 }
@@ -198,11 +185,11 @@ TEST( Iterator_ContainerIterator, Multiset ) {
 }
 
 TEST( Iterator_ContainerIterator, UnorderedSet ) {
-	container_test_unsorted_deduplicated<std::unordered_set<int> >();
+	container_test_unordered_deduplicated<std::unordered_set<int> >();
 }
 
 TEST( Iterator_ContainerIterator, UnorderedMultiset ) {
-	container_test_unsorted_grouped<std::unordered_multiset<int> >();
+	container_test_unordered<std::unordered_multiset<int> >();
 }
 
 TEST( Iterator_ContainerIterator, Vector ) {
