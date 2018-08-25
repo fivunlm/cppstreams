@@ -39,6 +39,8 @@ namespace cppstreams {
 			// DOCME
 			stream( const Pointer<iterators::iterator<T> >& source );
 
+			// Intermediate Operations
+
 			// DOCME
 			// TESTME
 			Pointer<stream<T, Pointer> > filter( std::function<bool( const T& )> filter );
@@ -47,6 +49,28 @@ namespace cppstreams {
 			// TESTME
 			template<class Out>
 			Pointer<stream<Out, Pointer> > map( std::function<Out( const T& )> mapper );
+
+			// Terminal Operations
+
+			// DOCME
+			// TESTME
+			bool all_match( std::function<bool( const T& )> filter );
+
+			// DOCME
+			// TESTME
+			bool any_match( std::function<bool( const T& )> filter );
+
+			// DOCME
+			// TESTME
+			bool none_match( std::function<bool( const T& )> filter );
+
+			// DOCME
+			// TESTME
+			size_t count();
+
+			// DOCME
+			// TESTME
+			void for_each( std::function<void( const T& )> consumer );
 		};
 
 		// ==============================================================================
@@ -66,6 +90,52 @@ namespace cppstreams {
 		template<class Out>
 		Pointer<stream<Out, Pointer> > stream<T, Pointer>::map( std::function<Out( const T& )> mapper ) {
 			return Pointer<stream<Out, Pointer> >( new stream<Out, Pointer>( iterators::transformation_iterators::map_iterator<T, Out, Pointer>( source, filter ) ) );
+		}
+
+		template<class T, template<class> class Pointer>
+		bool stream<T, Pointer>::all_match( std::function<bool( const T& )> filter ) {
+			while ( source->has_element() ) {
+				if ( !filter( source->next() ) ) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		template<class T, template<class> class Pointer>
+		bool stream<T, Pointer>::any_match( std::function<bool( const T& )> filter ) {
+			while ( source->has_element() ) {
+				if ( filter( source->next() ) ) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		template<class T, template<class> class Pointer>
+		bool stream<T, Pointer>::none_match( std::function<bool( const T& )> filter ) {
+			return !any_match( filter );
+		}
+
+		template<class T, template<class> class Pointer>
+		size_t stream<T, Pointer>::count() {
+			size_t count( 0 );
+
+			while ( source->has_element() ) {
+				source->next();
+				++count;
+			}
+
+			return count;
+		}
+
+		template<class T, template<class> class Pointer>
+		void stream<T, Pointer>::for_each( std::function<void( const T& )> consumer ) {
+			while ( source->has_element() ) {
+				consumer( source->next() );
+			}
 		}
 	}
 }
