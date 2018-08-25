@@ -51,11 +51,15 @@ namespace cppstreams {
 
 		template<class Container, class T>
 		const T container_iterator<Container, T>::fetch() {
+			check_state();
+
 			return *(it++);
 		}
 
 		template<class Container, class T>
 		const T container_iterator<Container, T>::peek() {
+			check_state();
+
 			return *it;
 		}
 

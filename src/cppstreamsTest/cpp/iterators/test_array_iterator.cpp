@@ -45,4 +45,9 @@ TEST( Iterator_ArrayIterator, Iterating ) {
 
 	EXPECT_FALSE( it.has_element() );
 	EXPECT_FALSE( const_it.has_element() );
+
+	EXPECT_THROW( it.peek(), std::range_error );
+	EXPECT_THROW( it.fetch(), std::range_error );
+	EXPECT_THROW( const_it.peek(), std::range_error );
+	EXPECT_THROW( const_it.fetch(), std::range_error );
 }

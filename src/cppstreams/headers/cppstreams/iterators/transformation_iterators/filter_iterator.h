@@ -26,9 +26,6 @@ namespace cppstreams {
 				virtual const T fetch();
 				virtual const T peek();
 				virtual bool has_element();
-
-			protected:
-				void advance();
 			};
 
 			// ==============================================================================
@@ -42,30 +39,28 @@ namespace cppstreams {
 
 			template<class T, template<class> class Pointer>
 			const T filter_iterator<T, Pointer>::fetch() {
-				advance();
+				// Calls has_element(), which advances the iterator if necessary
+				check_state();
 
 				return source->fetch();
 			}
 
 			template<class T, template<class> class Pointer>
 			const T filter_iterator<T, Pointer>::peek() {
-				advance();
+				// Calls has_element(), which advances the iterator if necessary
+				check_state();
 
 				return source->peek();
 			}
 
 			template<class T, template<class> class Pointer>
 			bool filter_iterator<T, Pointer>::has_element() {
-				advance();
-
-				return source->has_element();
-			}
-
-			template<class T, template<class> class Pointer>
-			void filter_iterator<T, Pointer>::advance() {
+				// Advancing logic
 				while ( source->has_element() && !filter( source->peek() ) ) {
 					source->fetch();
 				}
+
+				return source->has_element();
 			}
 		}
 	}

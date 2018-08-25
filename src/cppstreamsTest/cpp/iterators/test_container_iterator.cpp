@@ -59,6 +59,11 @@ TEST( Iterator_ContainerIterator, Iterating ) {
 
 	EXPECT_FALSE( it.has_element() );
 	EXPECT_FALSE( const_it.has_element() );
+
+	EXPECT_THROW( it.peek(), std::range_error );
+	EXPECT_THROW( it.fetch(), std::range_error );
+	EXPECT_THROW( const_it.peek(), std::range_error );
+	EXPECT_THROW( const_it.fetch(), std::range_error );
 }
 
 template<class T>
@@ -85,6 +90,9 @@ void container_test_unsorted() {
 	EXPECT_EQ( it.fetch(), -5 );
 
 	EXPECT_FALSE( it.has_element() );
+
+	EXPECT_THROW( it.peek(), std::range_error );
+	EXPECT_THROW( it.fetch(), std::range_error );
 }
 
 template<class T>
@@ -103,6 +111,9 @@ void container_test_unordered() {
 	}
 
 	EXPECT_FALSE( it.has_element() );
+
+	EXPECT_THROW( it.peek(), std::range_error );
+	EXPECT_THROW( it.fetch(), std::range_error );
 }
 
 template<class T>
@@ -121,6 +132,9 @@ void container_test_unordered_deduplicated() {
 	}
 
 	EXPECT_FALSE( it.has_element() );
+
+	EXPECT_THROW( it.peek(), std::range_error );
+	EXPECT_THROW( it.fetch(), std::range_error );
 }
 
 template<class T>
@@ -147,6 +161,9 @@ void container_test_sorted() {
 	EXPECT_EQ( it.fetch(), 7 );
 
 	EXPECT_FALSE( it.has_element() );
+
+	EXPECT_THROW( it.peek(), std::range_error );
+	EXPECT_THROW( it.fetch(), std::range_error );
 }
 
 template<class T>
@@ -170,6 +187,9 @@ void container_test_sorted_deduplicated() {
 	EXPECT_EQ( it.fetch(), 7 );
 
 	EXPECT_FALSE( it.has_element() );
+
+	EXPECT_THROW( it.peek(), std::range_error );
+	EXPECT_THROW( it.fetch(), std::range_error );
 }
 
 TEST( Iterator_ContainerIterator, Array ) {
@@ -232,6 +252,9 @@ void map_test_sorted() {
 	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( 7, 2 )) );
 
 	EXPECT_FALSE( it.has_element() );
+
+	EXPECT_THROW( it.peek(), std::range_error );
+	EXPECT_THROW( it.fetch(), std::range_error );
 }
 
 template<class T>
@@ -255,6 +278,9 @@ void map_test_sorted_deduplicated() {
 	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( 7, 2 )) );
 
 	EXPECT_FALSE( it.has_element() );
+
+	EXPECT_THROW( it.peek(), std::range_error );
+	EXPECT_THROW( it.fetch(), std::range_error );
 }
 
 template<class T>
@@ -273,6 +299,9 @@ void map_test_unordered() {
 	}
 
 	EXPECT_FALSE( it.has_element() );
+
+	EXPECT_THROW( it.peek(), std::range_error );
+	EXPECT_THROW( it.fetch(), std::range_error );
 }
 
 template<class T>
@@ -291,6 +320,9 @@ void map_test_unordered_deduplicated() {
 	}
 
 	EXPECT_FALSE( it.has_element() );
+
+	EXPECT_THROW( it.peek(), std::range_error );
+	EXPECT_THROW( it.fetch(), std::range_error );
 }
 
 TEST( Iterator_ContainerIterator, Map ) {
@@ -356,4 +388,7 @@ TEST( Iterator_ContainerIterator, String ) {
 	EXPECT_EQ( it.fetch(), '!' );
 
 	EXPECT_FALSE( it.has_element() );
+
+	EXPECT_THROW( it.peek(), std::range_error );
+	EXPECT_THROW( it.fetch(), std::range_error );
 }
