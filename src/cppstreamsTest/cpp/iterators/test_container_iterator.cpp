@@ -18,8 +18,7 @@
 
 #include "cppstreams/iterator.h"
 
-template<class T>
-using container_iterator = cppstreams::iterators::container_iterator<T>;
+using cppstreams::iterators::container_iterator;
 
 std::vector<int> vector( { 1, 2, 3 } );
 const std::vector<int> const_vector( { 1, 2, 3 } );

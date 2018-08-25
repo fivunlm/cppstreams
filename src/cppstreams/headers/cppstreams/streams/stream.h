@@ -42,6 +42,11 @@ namespace cppstreams {
 			// DOCME
 			// TESTME
 			Pointer<stream<T, Pointer> > filter( std::function<bool( const T& )> filter );
+
+			// DOCME
+			// TESTME
+			template<class Out>
+			Pointer<stream<Out, Pointer> > map( std::function<Out( const T& )> mapper );
 		};
 
 		// ==============================================================================
@@ -55,6 +60,12 @@ namespace cppstreams {
 		template<class T, template<class> class Pointer>
 		Pointer<stream<T, Pointer> > stream<T, Pointer>::filter( std::function<bool( const T& )> filter ) {
 			return Pointer<stream<T, Pointer> >( new stream<T, Pointer>( iterators::transformation_iterators::filter_iterator<T, Pointer>( source, filter ) ) );
+		}
+
+		template<class T, template<class> class Pointer>
+		template<class Out>
+		Pointer<stream<Out, Pointer> > stream<T, Pointer>::map( std::function<Out( const T& )> mapper ) {
+			return Pointer<stream<Out, Pointer> >( new stream<Out, Pointer>( iterators::transformation_iterators::map_iterator<T, Out, Pointer>( source, filter ) ) );
 		}
 	}
 }

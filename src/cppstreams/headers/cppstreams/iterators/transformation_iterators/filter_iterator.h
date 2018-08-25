@@ -15,7 +15,7 @@ namespace cppstreams {
 		namespace transformation_iterators {
 			// DOCME
 			template<class T, template<class> class Pointer = std::shared_ptr>
-			class filter_iterator : public transformation_iterator<T, Pointer> {
+			class filter_iterator : public transformation_iterator<T, T, Pointer> {
 			protected:
 				const std::function<bool( const T& )> filter;
 
@@ -34,7 +34,7 @@ namespace cppstreams {
 
 			template<class T, template<class> class Pointer>
 			filter_iterator<T, Pointer>::filter_iterator( const Pointer<iterators::iterator<T> >& source, const std::function<bool( const T& )>& filter ) :
-				transformation_iterator<T, Pointer>( source ),
+				transformation_iterator<T, T, Pointer>( source ),
 				filter( filter ) {}
 
 			template<class T, template<class> class Pointer>
@@ -42,7 +42,7 @@ namespace cppstreams {
 				// Calls has_element(), which advances the iterator if necessary
 				iterator<T>::check_state();
 
-				return transformation_iterator<T, Pointer>::source->fetch();
+				return transformation_iterator<T, T, Pointer>::source->fetch();
 			}
 
 			template<class T, template<class> class Pointer>
@@ -50,17 +50,17 @@ namespace cppstreams {
 				// Calls has_element(), which advances the iterator if necessary
 				iterator<T>::check_state();
 
-				return transformation_iterator<T, Pointer>::source->peek();
+				return transformation_iterator<T, T, Pointer>::source->peek();
 			}
 
 			template<class T, template<class> class Pointer>
 			bool filter_iterator<T, Pointer>::has_element() {
 				// Advancing logic
-				while ( transformation_iterator<T, Pointer>::source->has_element() && !filter( transformation_iterator<T, Pointer>::source->peek() ) ) {
-					transformation_iterator<T, Pointer>::source->fetch();
+				while ( transformation_iterator<T, T, Pointer>::source->has_element() && !filter( transformation_iterator<T, T, Pointer>::source->peek() ) ) {
+					transformation_iterator<T, T, Pointer>::source->fetch();
 				}
 
-				return transformation_iterator<T, Pointer>::source->has_element();
+				return transformation_iterator<T, T, Pointer>::source->has_element();
 			}
 		}
 	}

@@ -7,8 +7,7 @@
 
 #include "cppstreams/iterator.h"
 
-template<class T>
-using filter_iterator = cppstreams::iterators::transformation_iterators::filter_iterator<T>;
+using cppstreams::iterators::transformation_iterators::filter_iterator;
 
 constexpr int values[] { 1, 2, 3, 4, 5, 6, 7 };
 

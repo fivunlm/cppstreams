@@ -14,22 +14,22 @@ namespace cppstreams {
 	namespace iterators {
 		namespace transformation_iterators {
 			// DOCME
-			template<class T, template<class> class Pointer = std::shared_ptr>
-			class transformation_iterator : public iterator<T> {
+			template<class In, class Out = In, template<class> class Pointer = std::shared_ptr>
+			class transformation_iterator : public iterator<Out> {
 			protected:
 				// DOCME
-				const Pointer<iterators::iterator<T> > source;
+				const Pointer<iterators::iterator<In> > source;
 
 				// DOCME
-				transformation_iterator( const Pointer<iterators::iterator<T> >& source );
+				transformation_iterator( const Pointer<iterators::iterator<In> >& source );
 			};
 
 			// ==============================================================================
 			// Implementation
 			// ==============================================================================
 
-			template<class T, template<class> class Pointer>
-			transformation_iterator<T, Pointer>::transformation_iterator( const Pointer<iterators::iterator<T> >& source ) :
+			template<class In, class Out, template<class> class Pointer>
+			transformation_iterator<In, Out, Pointer>::transformation_iterator( const Pointer<iterators::iterator<In> >& source ) :
 				source( source ) {}
 		}
 	}

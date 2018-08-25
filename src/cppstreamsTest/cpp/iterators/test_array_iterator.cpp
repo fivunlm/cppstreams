@@ -7,8 +7,7 @@
 
 #include "cppstreams/iterator.h"
 
-template<class T>
-using array_iterator = cppstreams::iterators::array_iterator<T>;
+using cppstreams::iterators::array_iterator;
 
 int array[] = { 1, 2, 3 };
 constexpr int const_array[] = { 1, 2, 3 };
