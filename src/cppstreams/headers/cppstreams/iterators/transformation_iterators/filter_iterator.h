@@ -34,7 +34,7 @@ namespace cppstreams {
 
 			template<class T, template<class> class Pointer>
 			filter_iterator<T, Pointer>::filter_iterator( const Pointer<iterators::iterator<T> >& source, const std::function<bool( const T& )>& filter ) :
-				transformation_iterator( source ),
+				transformation_iterator<T, Pointer>( source ),
 				filter( filter ) {}
 
 			template<class T, template<class> class Pointer>
