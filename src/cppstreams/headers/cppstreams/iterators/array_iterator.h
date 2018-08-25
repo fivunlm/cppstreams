@@ -17,7 +17,7 @@ namespace cppstreams {
 		class array_iterator : public iterator<T> {
 		public:
 			// DOCME
-			typedef T const* iterator_type;
+			typedef const T* iterator_type;
 
 		protected:
 			// DOCME

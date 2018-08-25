@@ -27,12 +27,6 @@ namespace cppstreams {
 
 // Definitions and code
 namespace cppstreams {
-	// Aliasing
-
-	/// @copydoc iterators::iterator
-	template<class T>
-	using iterator = iterators::iterator<T>;
-
 	// Convinience Methods
 
 	// DOCME
@@ -70,14 +64,14 @@ namespace cppstreams {
 		const typename iterators::array_iterator<T>::iterator_type start,
 		const typename iterators::array_iterator<T>::iterator_type end
 	) {
-		return std::shared_ptr<iterator<T> >( new iterators::array_iterator<T>( start, end ) );
+		return std::shared_ptr<iterators::iterator<T> >( new iterators::array_iterator<T>( start, end ) );
 	}
 
 	template<class T, std::size_t N>
 	std::shared_ptr<iterators::iterator<T> > get_iterator(
 		const T( &array )[N]
 	) {
-		return std::shared_ptr<iterator<T> >( new iterators::array_iterator<T>( array ) );
+		return std::shared_ptr<iterators::iterator<T> >( new iterators::array_iterator<T>( array ) );
 	}
 
 	template<class Container, class T>
@@ -85,14 +79,14 @@ namespace cppstreams {
 		const typename iterators::container_iterator<Container, T>::iterator_type start,
 		const typename iterators::container_iterator<Container, T>::iterator_type end
 	) {
-		return std::shared_ptr<iterator<T> >( new iterators::container_iterator<Container, T>( start, end ) );
+		return std::shared_ptr<iterators::iterator<T> >( new iterators::container_iterator<Container, T>( start, end ) );
 	}
 
 	template<class Container, class T>
 	std::shared_ptr<iterators::iterator<T> > get_iterator(
 		const Container& container
 	) {
-		return std::shared_ptr<iterator<T> >( new iterators::container_iterator<Container, T>( container ) );
+		return std::shared_ptr<iterators::iterator<T> >( new iterators::container_iterator<Container, T>( container ) );
 	}
 }
 

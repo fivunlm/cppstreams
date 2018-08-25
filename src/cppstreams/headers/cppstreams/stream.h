@@ -23,11 +23,6 @@ namespace cppstreams {
 
 // Definitions and code
 namespace cppstreams {
-	// Aliasing
-
-	/// @copydoc streams::stream
-	template<class T>
-	using stream = streams::stream<T>;
 }
 
 #endif // #ifndef CPPSTREAMS_INCLUDE_GUARD_CPPSTREAMS_STREAM_H
