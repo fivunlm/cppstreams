@@ -48,7 +48,7 @@ namespace cppstreams {
 			// DOCME
 			// TESTME
 			template<class Out>
-			virtual Pointer<stream<Out, Pointer> > map( std::function<Out( const T& )> mapper );
+			Pointer<stream<Out, Pointer> > map( std::function<Out( const T& )> mapper );
 
 			// Terminal Operations
 
