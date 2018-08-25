@@ -30,6 +30,7 @@ namespace cppstreams {
 	// Convinience Methods
 
 	// DOCME
+	// TODO: Get template deduction working
 	template<class T, template<class> class Pointer = std::shared_ptr>
 	Pointer<iterators::iterator<T> > get_iterator(
 		const typename iterators::array_iterator<T>::iterator_type start,
@@ -43,6 +44,7 @@ namespace cppstreams {
 	);
 
 	// DOCME
+	// TODO: Get template deduction working
 	template<class Container, class T = typename std::decay<decltype(*std::begin( Container() ))>::type, template<class> class Pointer = std::shared_ptr>
 	Pointer<iterators::iterator<T> > get_iterator(
 		const typename iterators::container_iterator<Container, T>::iterator_type start,
@@ -67,7 +69,7 @@ namespace cppstreams {
 		return Pointer<iterators::iterator<T> >( new iterators::array_iterator<T>( start, end ) );
 	}
 
-	template<class T, std::size_t N, template<class> class Pointer = std::shared_ptr>
+	template<class T, std::size_t N, template<class> class Pointer>
 	Pointer<iterators::iterator<T> > get_iterator(
 		const T( &array )[N]
 	) {

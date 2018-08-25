@@ -22,8 +22,19 @@ namespace cppstreams {
 		template<class T, template<class> class Pointer = std::shared_ptr>
 		class stream {
 		protected:
-			Pointer<iterators::iterator<T> > source;
+			const Pointer<iterators::iterator<T> > source;
+
+		public:
+			stream( const Pointer<iterators::iterator<T> >& source );
 		};
+
+		// ==============================================================================
+		// Implementation
+		// ==============================================================================
+
+		template<class T, template<class> class Pointer>
+		stream<T, Pointer>::stream( const Pointer<iterators::iterator<T> >& source ) :
+			source( source ) {}
 	}
 }
 
