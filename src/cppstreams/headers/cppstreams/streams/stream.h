@@ -83,19 +83,19 @@ namespace cppstreams {
 
 		template<class T, template<class> class Pointer>
 		Pointer<stream<T, Pointer> > stream<T, Pointer>::filter( std::function<bool( const T& )> filter ) {
-			return Pointer<stream<T, Pointer> >( new stream<T, Pointer>( iterators::transformation_iterators::filter_iterator<T, Pointer>( source, filter ) ) );
+			return Pointer<stream<T, Pointer> >( new stream<T, Pointer>( Pointer<iterators::iterator<T> >( new iterators::transformation_iterators::filter_iterator<T, Pointer>( source, filter ) ) ) );
 		}
 
 		template<class T, template<class> class Pointer>
 		template<class Out>
 		Pointer<stream<Out, Pointer> > stream<T, Pointer>::map( std::function<Out( const T& )> mapper ) {
-			return Pointer<stream<Out, Pointer> >( new stream<Out, Pointer>( iterators::transformation_iterators::map_iterator<T, Out, Pointer>( source, filter ) ) );
+			return Pointer<stream<Out, Pointer> >( new stream<Out, Pointer>( Pointer<iterators::iterator<Out> >( new iterators::transformation_iterators::map_iterator<T, Out, Pointer>( source, filter ) ) ) );
 		}
 
 		template<class T, template<class> class Pointer>
 		bool stream<T, Pointer>::all_match( std::function<bool( const T& )> filter ) {
 			while ( source->has_element() ) {
-				if ( !filter( source->next() ) ) {
+				if ( !filter( source->fetch() ) ) {
 					return false;
 				}
 			}
@@ -106,7 +106,7 @@ namespace cppstreams {
 		template<class T, template<class> class Pointer>
 		bool stream<T, Pointer>::any_match( std::function<bool( const T& )> filter ) {
 			while ( source->has_element() ) {
-				if ( filter( source->next() ) ) {
+				if ( filter( source->fetch() ) ) {
 					return true;
 				}
 			}
@@ -124,7 +124,7 @@ namespace cppstreams {
 			size_t count( 0 );
 
 			while ( source->has_element() ) {
-				source->next();
+				source->fetch();
 				++count;
 			}
 
@@ -134,7 +134,7 @@ namespace cppstreams {
 		template<class T, template<class> class Pointer>
 		void stream<T, Pointer>::for_each( std::function<void( const T& )> consumer ) {
 			while ( source->has_element() ) {
-				consumer( source->next() );
+				consumer( source->fetch() );
 			}
 		}
 	}
