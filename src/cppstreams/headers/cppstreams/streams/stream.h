@@ -18,13 +18,24 @@ namespace cppstreams {
 		 *
 		 * This class already is a functional stream. Though it can be extended to allow streams with different
 		 * behaviors.
+		 *
+		 * @tparam T The value type (see <code>stream::value_type</code>)
+		 * @tparam Pointer This template parameter determines which smart pointer to use.<br>
+		 *                 To prevent memory leaks, this library only uses smart pointers.<br>
+		 *                 Default is <code>std::shared_ptr</code>
 		 */
 		template<class T, template<class> class Pointer = std::shared_ptr>
 		class stream {
+		public:
+			// DOCME
+			typedef T value_type;
+
 		protected:
+			// DOCME
 			const Pointer<iterators::iterator<T> > source;
 
 		public:
+			// DOCME
 			stream( const Pointer<iterators::iterator<T> >& source );
 		};
 
