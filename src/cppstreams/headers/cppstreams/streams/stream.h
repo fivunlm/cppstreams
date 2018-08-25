@@ -19,10 +19,10 @@ namespace cppstreams {
 		 * This class already is a functional stream. Though it can be extended to allow streams with different
 		 * behaviors.
 		 */
-		template<class T>
+		template<class T, template<class> class Pointer = std::shared_ptr>
 		class stream {
 		protected:
-			std::shared_ptr<iterators::iterator<T> > source;
+			Pointer<iterators::iterator<T> > source;
 		};
 	}
 }

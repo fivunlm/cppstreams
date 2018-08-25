@@ -30,28 +30,28 @@ namespace cppstreams {
 	// Convinience Methods
 
 	// DOCME
-	template<class T>
-	std::shared_ptr<iterators::iterator<T> > get_iterator(
+	template<class T, template<class> class Pointer = std::shared_ptr>
+	Pointer<iterators::iterator<T> > get_iterator(
 		const typename iterators::array_iterator<T>::iterator_type start,
 		const typename iterators::array_iterator<T>::iterator_type end
 	);
 
 	// DOCME
-	template<class T, std::size_t N>
-	std::shared_ptr<iterators::iterator<T> > get_iterator(
+	template<class T, std::size_t N, template<class> class Pointer = std::shared_ptr>
+	Pointer<iterators::iterator<T> > get_iterator(
 		const T( &array )[N]
 	);
 
 	// DOCME
-	template<class Container, class T = typename std::decay<decltype(*std::begin( Container() ))>::type>
-	std::shared_ptr<iterators::iterator<T> > get_iterator(
+	template<class Container, class T = typename std::decay<decltype(*std::begin( Container() ))>::type, template<class> class Pointer = std::shared_ptr>
+	Pointer<iterators::iterator<T> > get_iterator(
 		const typename iterators::container_iterator<Container, T>::iterator_type start,
 		const typename iterators::container_iterator<Container, T>::iterator_type end
 	);
 
 	// DOCME
-	template<class Container, class T = typename std::decay<decltype(*std::begin( Container() ))>::type>
-	std::shared_ptr<iterators::iterator<T> > get_iterator(
+	template<class Container, class T = typename std::decay<decltype(*std::begin( Container() ))>::type, template<class> class Pointer = std::shared_ptr>
+	Pointer<iterators::iterator<T> > get_iterator(
 		const Container& container
 	);
 
@@ -59,34 +59,34 @@ namespace cppstreams {
 	// Implementation
 	// ==============================================================================
 
-	template<class T>
-	std::shared_ptr<iterators::iterator<T> > get_iterator(
+	template<class T, template<class> class Pointer>
+	Pointer<iterators::iterator<T> > get_iterator(
 		const typename iterators::array_iterator<T>::iterator_type start,
 		const typename iterators::array_iterator<T>::iterator_type end
 	) {
-		return std::shared_ptr<iterators::iterator<T> >( new iterators::array_iterator<T>( start, end ) );
+		return Pointer<iterators::iterator<T> >( new iterators::array_iterator<T>( start, end ) );
 	}
 
-	template<class T, std::size_t N>
-	std::shared_ptr<iterators::iterator<T> > get_iterator(
+	template<class T, std::size_t N, template<class> class Pointer = std::shared_ptr>
+	Pointer<iterators::iterator<T> > get_iterator(
 		const T( &array )[N]
 	) {
-		return std::shared_ptr<iterators::iterator<T> >( new iterators::array_iterator<T>( array ) );
+		return Pointer<iterators::iterator<T> >( new iterators::array_iterator<T>( array ) );
 	}
 
-	template<class Container, class T>
-	std::shared_ptr<iterators::iterator<T> > get_iterator(
+	template<class Container, class T, template<class> class Pointer>
+	Pointer<iterators::iterator<T> > get_iterator(
 		const typename iterators::container_iterator<Container, T>::iterator_type start,
 		const typename iterators::container_iterator<Container, T>::iterator_type end
 	) {
-		return std::shared_ptr<iterators::iterator<T> >( new iterators::container_iterator<Container, T>( start, end ) );
+		return Pointer<iterators::iterator<T> >( new iterators::container_iterator<Container, T>( start, end ) );
 	}
 
-	template<class Container, class T>
-	std::shared_ptr<iterators::iterator<T> > get_iterator(
+	template<class Container, class T, template<class> class Pointer>
+	Pointer<iterators::iterator<T> > get_iterator(
 		const Container& container
 	) {
-		return std::shared_ptr<iterators::iterator<T> >( new iterators::container_iterator<Container, T>( container ) );
+		return Pointer<iterators::iterator<T> >( new iterators::container_iterator<Container, T>( container ) );
 	}
 }
 
