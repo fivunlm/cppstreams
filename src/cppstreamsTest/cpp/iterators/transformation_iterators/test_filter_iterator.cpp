@@ -28,11 +28,11 @@ TEST( Iterator_TransformationInterator_FilterIterator, Iterating ) {
 	filter_iterator<int> filter_it( it, is_even );
 
 	for ( int i = 2; i <= 6; i += 2 ) {
-		EXPECT_TRUE( filter_it.has_next() );
+		EXPECT_TRUE( filter_it.has_element() );
 
 		EXPECT_EQ( filter_it.peek(), i );
-		EXPECT_EQ( filter_it.next(), i );
+		EXPECT_EQ( filter_it.fetch(), i );
 	}
 
-	EXPECT_FALSE( filter_it.has_next() );
+	EXPECT_FALSE( filter_it.has_element() );
 }

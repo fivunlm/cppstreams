@@ -48,17 +48,17 @@ TEST( Iterator_ContainerIterator, Iterating ) {
 	container_iterator<std::vector<int>> const_it( const_vector );
 
 	for ( int i = 1; i <= 3; ++i ) {
-		EXPECT_TRUE( it.has_next() );
-		EXPECT_TRUE( const_it.has_next() );
+		EXPECT_TRUE( it.has_element() );
+		EXPECT_TRUE( const_it.has_element() );
 
 		EXPECT_EQ( it.peek(), i );
-		EXPECT_EQ( it.next(), i );
+		EXPECT_EQ( it.fetch(), i );
 		EXPECT_EQ( const_it.peek(), i );
-		EXPECT_EQ( const_it.next(), i );
+		EXPECT_EQ( const_it.fetch(), i );
 	}
 
-	EXPECT_FALSE( it.has_next() );
-	EXPECT_FALSE( const_it.has_next() );
+	EXPECT_FALSE( it.has_element() );
+	EXPECT_FALSE( const_it.has_element() );
 }
 
 template<class T>
@@ -66,25 +66,25 @@ void container_test_unsorted() {
 	T container { values };
 	container_iterator<T> it( container );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 3 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 3 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 7 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 7 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 5 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 5 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 1 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 1 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 3 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 3 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), -5 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), -5 );
 
-	EXPECT_FALSE( it.has_next() );
+	EXPECT_FALSE( it.has_element() );
 }
 
 template<class T>
@@ -96,13 +96,13 @@ void container_test_unordered() {
 	std::multiset<int>::iterator found;
 
 	for ( int i = 0; i < 6; ++i ) {
-		EXPECT_TRUE( it.has_next() );
-		found = comparator.find( it.next() );
+		EXPECT_TRUE( it.has_element() );
+		found = comparator.find( it.fetch() );
 		EXPECT_NE( found, comparator.end() );
 		comparator.erase( found );
 	}
 
-	EXPECT_FALSE( it.has_next() );
+	EXPECT_FALSE( it.has_element() );
 }
 
 template<class T>
@@ -114,13 +114,13 @@ void container_test_unordered_deduplicated() {
 	std::set<int>::iterator found;
 
 	for ( int i = 0; i < 5; ++i ) {
-		EXPECT_TRUE( it.has_next() );
-		found = comparator.find( it.next() );
+		EXPECT_TRUE( it.has_element() );
+		found = comparator.find( it.fetch() );
 		EXPECT_NE( found, comparator.end() );
 		comparator.erase( found );
 	}
 
-	EXPECT_FALSE( it.has_next() );
+	EXPECT_FALSE( it.has_element() );
 }
 
 template<class T>
@@ -128,25 +128,25 @@ void container_test_sorted() {
 	T container { values };
 	container_iterator<T> it( container );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), -5 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), -5 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 1 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 1 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 3 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 3 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 3 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 3 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 5 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 5 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 7 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 7 );
 
-	EXPECT_FALSE( it.has_next() );
+	EXPECT_FALSE( it.has_element() );
 }
 
 template<class T>
@@ -154,22 +154,22 @@ void container_test_sorted_deduplicated() {
 	T container { values };
 	container_iterator<T> it( container );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), -5 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), -5 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 1 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 1 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 3 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 3 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 5 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 5 );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 7 );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 7 );
 
-	EXPECT_FALSE( it.has_next() );
+	EXPECT_FALSE( it.has_element() );
 }
 
 TEST( Iterator_ContainerIterator, Array ) {
@@ -213,25 +213,25 @@ void map_test_sorted() {
 	T container { map_values };
 	container_iterator<T> it( container );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), (std::pair<const int, int>( -5, 6 )) );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( -5, 6 )) );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), (std::pair<const int, int>( 1, 4 )) );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( 1, 4 )) );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), (std::pair<const int, int>( 3, 1 )) );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( 3, 1 )) );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), (std::pair<const int, int>( 3, 5 )) );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( 3, 5 )) );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), (std::pair<const int, int>( 5, 3 )) );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( 5, 3 )) );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), (std::pair<const int, int>( 7, 2 )) );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( 7, 2 )) );
 
-	EXPECT_FALSE( it.has_next() );
+	EXPECT_FALSE( it.has_element() );
 }
 
 template<class T>
@@ -239,22 +239,22 @@ void map_test_sorted_deduplicated() {
 	T container { map_values };
 	container_iterator<T> it( container );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), (std::pair<const int, int>( -5, 6 )) );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( -5, 6 )) );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), (std::pair<const int, int>( 1, 4 )) );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( 1, 4 )) );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), (std::pair<const int, int>( 3, 1 )) );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( 3, 1 )) );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), (std::pair<const int, int>( 5, 3 )) );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( 5, 3 )) );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), (std::pair<const int, int>( 7, 2 )) );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), (std::pair<const int, int>( 7, 2 )) );
 
-	EXPECT_FALSE( it.has_next() );
+	EXPECT_FALSE( it.has_element() );
 }
 
 template<class T>
@@ -266,13 +266,13 @@ void map_test_unordered() {
 	std::multimap<int, int>::iterator found;
 
 	for ( int i = 0; i < 6; ++i ) {
-		EXPECT_TRUE( it.has_next() );
-		found = comparator.find( it.next().first );
+		EXPECT_TRUE( it.has_element() );
+		found = comparator.find( it.fetch().first );
 		EXPECT_NE( found, comparator.end() );
 		comparator.erase( found );
 	}
 
-	EXPECT_FALSE( it.has_next() );
+	EXPECT_FALSE( it.has_element() );
 }
 
 template<class T>
@@ -284,13 +284,13 @@ void map_test_unordered_deduplicated() {
 	std::map<int, int>::iterator found;
 
 	for ( int i = 0; i < 5; ++i ) {
-		EXPECT_TRUE( it.has_next() );
-		found = comparator.find( it.next().first );
+		EXPECT_TRUE( it.has_element() );
+		found = comparator.find( it.fetch().first );
 		EXPECT_NE( found, comparator.end() );
 		comparator.erase( found );
 	}
 
-	EXPECT_FALSE( it.has_next() );
+	EXPECT_FALSE( it.has_element() );
 }
 
 TEST( Iterator_ContainerIterator, Map ) {
@@ -313,47 +313,47 @@ TEST( Iterator_ContainerIterator, String ) {
 	std::string string("Hi cppstreams!");
 	container_iterator<std::string> it( string );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 'H' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 'H' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 'i' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 'i' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), ' ' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), ' ' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 'c' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 'c' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 'p' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 'p' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 'p' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 'p' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 's' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 's' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 't' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 't' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 'r' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 'r' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 'e' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 'e' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 'a' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 'a' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 'm' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 'm' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), 's' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), 's' );
 
-	EXPECT_TRUE( it.has_next() );
-	EXPECT_EQ( it.next(), '!' );
+	EXPECT_TRUE( it.has_element() );
+	EXPECT_EQ( it.fetch(), '!' );
 
-	EXPECT_FALSE( it.has_next() );
+	EXPECT_FALSE( it.has_element() );
 }

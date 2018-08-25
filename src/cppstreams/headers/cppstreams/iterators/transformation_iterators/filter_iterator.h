@@ -23,9 +23,9 @@ namespace cppstreams {
 				// DOCME
 				filter_iterator( const Pointer<iterators::iterator<T> >& source, const std::function<bool( const T& )>& filter );
 
-				virtual const T next();
+				virtual const T fetch();
 				virtual const T peek();
-				virtual bool has_next();
+				virtual bool has_element();
 
 			protected:
 				void advance();
@@ -41,10 +41,10 @@ namespace cppstreams {
 				filter( filter ) {}
 
 			template<class T, template<class> class Pointer>
-			const T filter_iterator<T, Pointer>::next() {
+			const T filter_iterator<T, Pointer>::fetch() {
 				advance();
 
-				return source->next();
+				return source->fetch();
 			}
 
 			template<class T, template<class> class Pointer>
@@ -55,16 +55,16 @@ namespace cppstreams {
 			}
 
 			template<class T, template<class> class Pointer>
-			bool filter_iterator<T, Pointer>::has_next() {
+			bool filter_iterator<T, Pointer>::has_element() {
 				advance();
 
-				return source->has_next();
+				return source->has_element();
 			}
 
 			template<class T, template<class> class Pointer>
 			void filter_iterator<T, Pointer>::advance() {
-				while ( source->has_next() && !filter( source->peek() ) ) {
-					source->next();
+				while ( source->has_element() && !filter( source->peek() ) ) {
+					source->fetch();
 				}
 			}
 		}

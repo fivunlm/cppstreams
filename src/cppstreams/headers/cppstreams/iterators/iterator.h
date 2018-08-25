@@ -20,22 +20,22 @@ namespace cppstreams {
 			typedef T value_type;
 
 			/**
-			 * Returns the next value from the underlying container.
+			 * Returns the next element from the underlying container.
 			 *
-			 * The method is supposed to first fetch the value the iterator is currently pointing at and then
-			 * advance the pointer to the next object.
+			 * The method is supposed to first fetch the element the iterator is currently pointing at and then
+			 * advance the pointer to the next element.
 			 *
 			 * <strong>WARNING</strong>:
 			 * Undefined behavior if <code>has_next()</code> returns <code>false</code>!<br>
 			 * Make sure to always check that before calling this method!
 			 */
-			virtual const T next() = 0;
+			virtual const T fetch() = 0;
 
 			/**
-			* Returns the next value from the underlying container without changing the iterator pointer.
+			* Returns the next element from the underlying container without changing the iterator pointer.
 			*
-			* The method just fetches the value the iterator is currently pointing at and doesn't advance the
-			* pointer to the next object.
+			* The method just fetches the element the iterator is currently pointing at and doesn't advance the
+			* pointer to the next element.
 			*
 			* <strong>WARNING</strong>:
 			* Undefined behavior if <code>has_next()</code> returns <code>false</code>!<br>
@@ -44,13 +44,13 @@ namespace cppstreams {
 			virtual const T peek() = 0;
 
 			/**
-			 * Checks if there is a next value to return.
+			 * Checks if there is a next element to return.
 			 *
 			 * This method doesn't change the internal state of the iterator and is safe to call.<br>
 			 * <strong>ALWAYS</strong> call this before <code>next()</code>. (And only call this if this method
 			 * returns true!
 			 */
-			virtual bool has_next() = 0;
+			virtual bool has_element() = 0;
 		};
 	}
 }

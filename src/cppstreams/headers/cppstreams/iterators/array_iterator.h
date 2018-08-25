@@ -32,9 +32,9 @@ namespace cppstreams {
 			template<std::size_t N>
 			array_iterator( const T( &array )[N] );
 
-			virtual const T next();
+			virtual const T fetch();
 			virtual const T peek();
-			virtual bool has_next();
+			virtual bool has_element();
 		};
 
 		// ==============================================================================
@@ -52,7 +52,7 @@ namespace cppstreams {
 			array_iterator( std::begin( array ), std::end( array ) ) {}
 
 		template<class T>
-		const T array_iterator<T>::next() {
+		const T array_iterator<T>::fetch() {
 			return *(it++);
 		}
 
@@ -62,7 +62,7 @@ namespace cppstreams {
 		}
 
 		template<class T>
-		bool array_iterator<T>::has_next() {
+		bool array_iterator<T>::has_element() {
 			return it != end;
 		}
 	}

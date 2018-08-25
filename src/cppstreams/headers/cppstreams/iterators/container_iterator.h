@@ -31,9 +31,9 @@ namespace cppstreams {
 			// DOCME
 			container_iterator( const Container& container );
 
-			virtual const T next();
+			virtual const T fetch();
 			virtual const T peek();
-			virtual bool has_next();
+			virtual bool has_element();
 		};
 
 		// ==============================================================================
@@ -50,7 +50,7 @@ namespace cppstreams {
 			container_iterator( std::begin( container ), std::end( container ) ) {}
 
 		template<class Container, class T>
-		const T container_iterator<Container, T>::next() {
+		const T container_iterator<Container, T>::fetch() {
 			return *(it++);
 		}
 
@@ -60,7 +60,7 @@ namespace cppstreams {
 		}
 
 		template<class Container, class T>
-		bool container_iterator<Container, T>::has_next() {
+		bool container_iterator<Container, T>::has_element() {
 			return it != end;
 		}
 	}
