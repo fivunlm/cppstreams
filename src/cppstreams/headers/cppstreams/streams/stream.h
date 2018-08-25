@@ -43,34 +43,34 @@ namespace cppstreams {
 
 			// DOCME
 			// TESTME
-			Pointer<stream<T, Pointer> > filter( std::function<bool( const T& )> filter );
+			virtual Pointer<stream<T, Pointer> > filter( std::function<bool( const T& )> filter );
 
 			// DOCME
 			// TESTME
 			template<class Out>
-			Pointer<stream<Out, Pointer> > map( std::function<Out( const T& )> mapper );
+			virtual Pointer<stream<Out, Pointer> > map( std::function<Out( const T& )> mapper );
 
 			// Terminal Operations
 
 			// DOCME
 			// TESTME
-			bool all_match( std::function<bool( const T& )> filter );
+			virtual bool all_match( std::function<bool( const T& )> filter );
 
 			// DOCME
 			// TESTME
-			bool any_match( std::function<bool( const T& )> filter );
+			virtual bool any_match( std::function<bool( const T& )> filter );
 
 			// DOCME
 			// TESTME
-			bool none_match( std::function<bool( const T& )> filter );
+			virtual bool none_match( std::function<bool( const T& )> filter );
 
 			// DOCME
 			// TESTME
-			size_t count();
+			virtual size_t count();
 
 			// DOCME
 			// TESTME
-			void for_each( std::function<void( const T& )> consumer );
+			virtual void for_each( std::function<void( const T& )> consumer );
 		};
 
 		// ==============================================================================

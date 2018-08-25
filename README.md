@@ -121,9 +121,16 @@ For the full story check this [Medium post](https://medium.com/@lopez.fernando.d
 
 There are a lot of things still to do:
 
-* Test it with containers of complex objects and structs
-* Add *reduce* method
-* Add *forEach*
-* Add *findAny*
+* Add `reduce` method
+* Add `collect` method
+* Add `find_any` method
+* Add `find_first` method
+* Add `sort` method
+* Add `limit` method
+* Add `skip` method
+* Add `peek` method
+* Add `max` method
+* Add `min` method
 * Infinite streams
 * Performance analysis
+* Parallel streams
