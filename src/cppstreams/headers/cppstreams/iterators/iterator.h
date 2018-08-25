@@ -41,7 +41,7 @@ namespace cppstreams {
 			* Undefined behavior if <code>has_next()</code> returns <code>false</code>!<br>
 			* Make sure to always check that before calling this method!
 			*/
-			virtual const T peek() const noexcept = 0;
+			virtual const T peek() = 0;
 
 			/**
 			 * Checks if there is a next value to return.
@@ -50,7 +50,7 @@ namespace cppstreams {
 			 * <strong>ALWAYS</strong> call this before <code>next()</code>. (And only call this if this method
 			 * returns true!
 			 */
-			virtual bool has_next() const noexcept = 0;
+			virtual bool has_next() = 0;
 		};
 	}
 }

@@ -32,8 +32,8 @@ namespace cppstreams {
 			container_iterator( const Container& container );
 
 			virtual const T next();
-			virtual const T peek() const noexcept;
-			virtual bool has_next() const noexcept;
+			virtual const T peek();
+			virtual bool has_next();
 		};
 
 		// ==============================================================================
@@ -55,12 +55,12 @@ namespace cppstreams {
 		}
 
 		template<class Container, class T>
-		const T container_iterator<Container, T>::peek() const noexcept {
+		const T container_iterator<Container, T>::peek() {
 			return *it;
 		}
 
 		template<class Container, class T>
-		bool container_iterator<Container, T>::has_next() const noexcept {
+		bool container_iterator<Container, T>::has_next() {
 			return it != end;
 		}
 	}

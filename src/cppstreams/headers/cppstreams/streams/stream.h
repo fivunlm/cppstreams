@@ -7,6 +7,7 @@
 #define CPPSTREAMS_INCLUDE_GUARD_CPPSTREAMS_STREAMS_STREAM_H
 
 // Includes
+#include <functional>
 #include <memory>
 
 #include "cppstreams/iterator.h"
@@ -37,6 +38,10 @@ namespace cppstreams {
 		public:
 			// DOCME
 			stream( const Pointer<iterators::iterator<T> >& source );
+
+			// DOCME
+			// TESTME
+			Pointer<stream<T, Pointer> > filter( std::function<bool( const T& )> filter );
 		};
 
 		// ==============================================================================
@@ -46,6 +51,11 @@ namespace cppstreams {
 		template<class T, template<class> class Pointer>
 		stream<T, Pointer>::stream( const Pointer<iterators::iterator<T> >& source ) :
 			source( source ) {}
+
+		template<class T, template<class> class Pointer>
+		Pointer<stream<T, Pointer> > stream<T, Pointer>::filter( std::function<bool( const T& )> filter ) {
+			return Pointer<stream<T, Pointer> >( new stream<T, Pointer>( iterators::transformation_iterators::filter_iterator<T, Pointer>( source, filter ) ) );
+		}
 	}
 }
 
