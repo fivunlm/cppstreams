@@ -13,8 +13,7 @@ model {
             sources.cpp {
                 source {
                     srcDirs "googletest/googletest"
-                    include "src/**/*.cc"
-                    exclude "src/gtest.cc"
+                    include "src/gtest-all.cc"
                 }
                 exportedHeaders {
                     srcDirs "googletest/googletest"
@@ -42,7 +41,7 @@ model {
                 linker.args "-pthread"
             }
             if (toolChain in VisualCpp) {
-                cppCompiler.args "/std:c++11", "/W0", "/EHsc", "/O2"
+                cppCompiler.args "/W0", "/EHsc", "/O2"
             }
         }
     }
