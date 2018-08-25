@@ -40,27 +40,27 @@ namespace cppstreams {
 			template<class T, template<class> class Pointer>
 			const T filter_iterator<T, Pointer>::fetch() {
 				// Calls has_element(), which advances the iterator if necessary
-				check_state();
+				iterator<T>::check_state();
 
-				return source->fetch();
+				return transformation_iterator<T, Pointer>::source->fetch();
 			}
 
 			template<class T, template<class> class Pointer>
 			const T filter_iterator<T, Pointer>::peek() {
 				// Calls has_element(), which advances the iterator if necessary
-				check_state();
+				iterator<T>::check_state();
 
-				return source->peek();
+				return transformation_iterator<T, Pointer>::source->peek();
 			}
 
 			template<class T, template<class> class Pointer>
 			bool filter_iterator<T, Pointer>::has_element() {
 				// Advancing logic
-				while ( source->has_element() && !filter( source->peek() ) ) {
-					source->fetch();
+				while ( transformation_iterator<T, Pointer>::source->has_element() && !filter( transformation_iterator<T, Pointer>::source->peek() ) ) {
+					transformation_iterator<T, Pointer>::source->fetch();
 				}
 
-				return source->has_element();
+				return transformation_iterator<T, Pointer>::source->has_element();
 			}
 		}
 	}
