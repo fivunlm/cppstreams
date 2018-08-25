@@ -47,6 +47,7 @@ namespace cppstreams {
 
 			// DOCME
 			// TESTME
+			// TODO: Make sure autodeduction works with lambdas
 			template<class Out>
 			Pointer<stream<Out, Pointer> > map( std::function<Out( const T& )> mapper );
 
@@ -89,7 +90,7 @@ namespace cppstreams {
 		template<class T, template<class> class Pointer>
 		template<class Out>
 		Pointer<stream<Out, Pointer> > stream<T, Pointer>::map( std::function<Out( const T& )> mapper ) {
-			return Pointer<stream<Out, Pointer> >( new stream<Out, Pointer>( Pointer<iterators::iterator<Out> >( new iterators::transformation_iterators::map_iterator<T, Out, Pointer>( source, filter ) ) ) );
+			return Pointer<stream<Out, Pointer> >( new stream<Out, Pointer>( Pointer<iterators::iterator<Out> >( new iterators::transformation_iterators::map_iterator<T, Out, Pointer>( source, mapper ) ) ) );
 		}
 
 		template<class T, template<class> class Pointer>
