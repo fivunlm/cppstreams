@@ -25,6 +25,33 @@ TEST( Stream, Lambda ) {
 	count = stream( values )->filter( []( const int& val ) { return (val % 2) == 0; } )->map<std::string>( []( const int& val ) { return std::to_string( val ); } )->count(); EXPECT_EQ( count, 3 );
 }
 
+TEST( Stream, AllMatch ) {
+	EXPECT_FALSE( stream( values )->all_match( is_even ) );
+	EXPECT_FALSE( stream( values )->all_match( is_odd ) );
+	EXPECT_TRUE( stream( values )->filter( is_even )->all_match( is_even ) );
+	EXPECT_FALSE( stream( values )->filter( is_even )->all_match( is_odd ) );
+	EXPECT_FALSE( stream( values )->filter( is_odd )->all_match( is_even ) );
+	EXPECT_TRUE( stream( values )->filter( is_odd )->all_match( is_odd ) );
+}
+
+TEST( Stream, AnyMatch ) {
+	EXPECT_TRUE( stream( values )->any_match( is_even ) );
+	EXPECT_TRUE( stream( values )->any_match( is_odd ) );
+	EXPECT_TRUE( stream( values )->filter( is_even )->any_match( is_even ) );
+	EXPECT_FALSE( stream( values )->filter( is_even )->any_match( is_odd ) );
+	EXPECT_FALSE( stream( values )->filter( is_odd )->any_match( is_even ) );
+	EXPECT_TRUE( stream( values )->filter( is_odd )->any_match( is_odd ) );
+}
+
+TEST( Stream, NoneMatch ) {
+	EXPECT_FALSE( stream( values )->none_match( is_even ) );
+	EXPECT_FALSE( stream( values )->none_match( is_odd ) );
+	EXPECT_FALSE( stream( values )->filter( is_even )->none_match( is_even ) );
+	EXPECT_TRUE( stream( values )->filter( is_even )->none_match( is_odd ) );
+	EXPECT_TRUE( stream( values )->filter( is_odd )->none_match( is_even ) );
+	EXPECT_FALSE( stream( values )->filter( is_odd )->none_match( is_odd ) );
+}
+
 TEST( Stream, Count ) {
 	EXPECT_EQ( stream( values )->count(), 7 );
 	EXPECT_EQ( stream( values )->filter( is_even )->count(), 3 );

@@ -54,19 +54,15 @@ namespace cppstreams {
 			// Terminal Operations
 
 			// DOCME
-			// TESTME
 			virtual bool all_match( std::function<bool( const T& )> filter );
 
 			// DOCME
-			// TESTME
 			virtual bool any_match( std::function<bool( const T& )> filter );
 
 			// DOCME
-			// TESTME
 			virtual bool none_match( std::function<bool( const T& )> filter );
 
 			// DOCME
-			// TESTME
 			virtual size_t count();
 
 			// DOCME
