@@ -5,15 +5,13 @@
 //
 #include <gtest/gtest.h>
 
+#include "utilities.h"
+
 #include "cppstreams/iterator.h"
 
 using cppstreams::iterators::transformation_iterators::filter_iterator;
 
 constexpr int values[] { 1, 2, 3, 4, 5, 6, 7 };
-
-bool is_even( const int& num ) {
-	return (num % 2) == 0;
-}
 
 TEST( Iterator_TransformationInterator_FilterIterator, Constructors ) {
 	std::shared_ptr<cppstreams::iterators::iterator<int> > it( cppstreams::get_iterator( values ) );

@@ -7,19 +7,13 @@
 
 #include <string>
 
+#include "utilities.h"
+
 #include "cppstreams/iterator.h"
 
 using cppstreams::iterators::transformation_iterators::map_iterator;
 
 constexpr int values[] { 1, 2, 3, 4, 5, 6, 7 };
-
-int negator( const int& val ) {
-	return -val;
-}
-
-std::string to_string( const int& val ) {
-	return std::to_string( val );
-}
 
 TEST( Iterator_TransformationInterator_MapIterator, Constructors ) {
 	std::shared_ptr<cppstreams::iterators::iterator<int> > it( cppstreams::get_iterator( values ) );
