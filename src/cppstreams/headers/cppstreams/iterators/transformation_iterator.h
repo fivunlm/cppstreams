@@ -17,8 +17,10 @@ namespace cppstreams {
 
 // Includes
 #include "cppstreams/iterators/transformation_iterators/filter_iterator.h"
+#include "cppstreams/iterators/transformation_iterators/limit_iterator.h"
 #include "cppstreams/iterators/transformation_iterators/map_iterator.h"
 #include "cppstreams/iterators/transformation_iterators/peek_iterator.h"
+#include "cppstreams/iterators/transformation_iterators/skip_iterator.h"
 #include "cppstreams/iterators/transformation_iterators/transformation_iterator.h"
 
 #endif // #ifndef CPPSTREAMS_INCLUDE_GUARD_CPPSTREAMS_ITERATORS_TRANSFORMATION_ITERATOR_H

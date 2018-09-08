@@ -72,46 +72,7 @@ Use the following to just build the project and all its dependencies without per
 
 ## Usage
 
-To use it just create a stream object, it needs two template arguments. First the stream contained object type, then the original container type. here is an
-example using a list of ints:
-
-```cpp
-Stream<int, std::list<int> > oStream(testList);
-```
-
-or you can just use makeStream static method:
-
-```cpp
-Stream<int, std::list<int> >::makeStream(testList)
-```
-
-Then chain as many *map* and/or *filter* as needed:
-
-```cpp
-oStream.filter([](const int &iValue) { return iValue % 2 == 0; })
-       .map([](const int &iValue) { return iValue * 2; })
-       .map([](const int &iValue) { return iValue + 3; })
-```
-
-And finally use the method *collect*. It receives an optional limit parameter to get a restricted set of the original list
-
-```cpp
-.collect()
-```
-
-*collect* will return a new list with the applied functions.
-
-There are all the methods available
-
-| Method        | Desc        |
-| ------------- |-------------|
-| filter(*&lt;lambda_expression&gt;*) | Filter stream elements |
-| map(*&lt;lambda_expression&gt;*) | Transforms stream elements |
-| collect(limit = 0) | Process pipelined stream operations and return first *limit* elements |
-| sum(startValue = 0) | Accumulate the objects of the stream |
-| findFirst(*&lt;lambda_expression&gt;*) | Returns the first element |
-
-There are several other methods like *sum* to accumulate the objects of the stream, *findFirst* to find first occurrence given a predicate. And more are coming.
+Coming Soon&trade;
 
 ## Motivation
 
@@ -126,9 +87,6 @@ There are a lot of things still to do:
 * Add `find_any` method
 * Add `find_first` method
 * Add `sort` method
-* Add `limit` method
-* Add `skip` method
-* Add `peek` method
 * Add `max` method
 * Add `min` method
 * Infinite streams
