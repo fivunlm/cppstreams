@@ -49,6 +49,9 @@ namespace cppstreams {
 			template<class Out>
 			Pointer<stream<Out, Pointer> > map( std::function<Out( const T& )> mapper );
 
+			// DOCME
+			virtual Pointer<stream<T, Pointer> > peek( std::function<void( const T& )> peeker );
+
 			// Terminal Operations
 
 			// DOCME
@@ -85,6 +88,11 @@ namespace cppstreams {
 		template<class Out>
 		Pointer<stream<Out, Pointer> > stream<T, Pointer>::map( std::function<Out( const T& )> mapper ) {
 			return Pointer<stream<Out, Pointer> >( new stream<Out, Pointer>( Pointer<iterators::iterator<Out> >( new iterators::transformation_iterators::map_iterator<T, Out, Pointer>( source, mapper ) ) ) );
+		}
+
+		template<class T, template<class> class Pointer>
+		Pointer<stream<T, Pointer>> stream<T, Pointer>::peek( std::function<void( const T& )> peeker ) {
+			return Pointer<stream<T, Pointer> >( new stream<T, Pointer>( Pointer<iterators::iterator<T> >( new iterators::transformation_iterators::peek_iterator<T, Pointer>( source, peeker ) ) ) );
 		}
 
 		template<class T, template<class> class Pointer>
