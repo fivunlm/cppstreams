@@ -59,6 +59,60 @@ TEST( Stream, Count ) {
 	EXPECT_EQ( stream( values )->filter( is_even )->map<std::string>( to_string )->count(), 3 );
 }
 
+TEST( Stream, Max ) {
+	EXPECT_EQ( stream( values )->max(), 7 );
+
+	EXPECT_EQ( stream( values )->filter( is_even )->max(), 6 );
+	EXPECT_EQ( stream( values )->filter( is_odd )->max(), 7 );
+
+	EXPECT_EQ( stream( values )->limit( 2 )->max(), 2 );
+	EXPECT_EQ( stream( values )->skip( 2 )->max(), 7 );
+
+	EXPECT_THROW( stream( values )->filter( is_even )->filter( is_odd )->max(), std::range_error );
+	EXPECT_THROW( stream( values )->filter( is_odd )->filter( is_even )->max(), std::range_error );
+}
+
+TEST( Stream, MaxCustom ) {
+	// With custom comparator
+	EXPECT_EQ( stream( values )->max( std::greater<int>() ), 1 );
+
+	EXPECT_EQ( stream( values )->filter( is_even )->max( std::greater<int>() ), 2 );
+	EXPECT_EQ( stream( values )->filter( is_odd )->max( std::greater<int>() ), 1 );
+
+	EXPECT_EQ( stream( values )->limit( 2 )->max( std::greater<int>() ), 1 );
+	EXPECT_EQ( stream( values )->skip( 2 )->max( std::greater<int>() ), 3 );
+
+	EXPECT_THROW( stream( values )->filter( is_even )->filter( is_odd )->max( std::greater<int>() ), std::range_error );
+	EXPECT_THROW( stream( values )->filter( is_odd )->filter( is_even )->max( std::greater<int>() ), std::range_error );
+}
+
+TEST( Stream, Min ) {
+	EXPECT_EQ( stream( values )->min(), 1 );
+
+	EXPECT_EQ( stream( values )->filter( is_even )->min(), 2 );
+	EXPECT_EQ( stream( values )->filter( is_odd )->min(), 1 );
+
+	EXPECT_EQ( stream( values )->limit( 2 )->min(), 1 );
+	EXPECT_EQ( stream( values )->skip( 2 )->min(), 3 );
+
+	EXPECT_THROW( stream( values )->filter( is_even )->filter( is_odd )->min(), std::range_error );
+	EXPECT_THROW( stream( values )->filter( is_odd )->filter( is_even )->min(), std::range_error );
+}
+
+TEST( Stream, MinCustom ) {
+	// With custom comparator
+	EXPECT_EQ( stream( values )->min( std::greater<int>() ), 7 );
+
+	EXPECT_EQ( stream( values )->filter( is_even )->min( std::greater<int>() ), 6 );
+	EXPECT_EQ( stream( values )->filter( is_odd )->min( std::greater<int>() ), 7 );
+
+	EXPECT_EQ( stream( values )->limit( 2 )->min( std::greater<int>() ), 2 );
+	EXPECT_EQ( stream( values )->skip( 2 )->min( std::greater<int>() ), 7 );
+
+	EXPECT_THROW( stream( values )->filter( is_even )->filter( is_odd )->min( std::greater<int>() ), std::range_error );
+	EXPECT_THROW( stream( values )->filter( is_odd )->filter( is_even )->min( std::greater<int>() ), std::range_error );
+}
+
 TEST( Stream, MultiFilter ) {
 	EXPECT_EQ( stream( values )->filter( is_even )->filter( is_odd )->count(), 0 );
 	EXPECT_EQ( stream( values )->filter( is_odd )->filter( is_even )->count(), 0 );

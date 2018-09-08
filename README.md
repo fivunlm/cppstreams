@@ -87,8 +87,6 @@ There are a lot of things still to do:
 * Add `find_any` method
 * Add `find_first` method
 * Add `sort` method
-* Add `max` method
-* Add `min` method
 * Infinite streams
 * Performance analysis
 * Parallel streams

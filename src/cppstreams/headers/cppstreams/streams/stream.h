@@ -75,6 +75,12 @@ namespace cppstreams {
 			// DOCME
 			// TESTME
 			virtual void for_each( std::function<void( const T& )> consumer );
+
+			// DOCME
+			virtual T max( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
+
+			// DOCME
+			virtual T min( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
 		};
 
 		// ==============================================================================
@@ -155,6 +161,36 @@ namespace cppstreams {
 			while ( source->has_element() ) {
 				consumer( source->fetch() );
 			}
+		}
+
+		template<class T, template<class> class Pointer>
+		T stream<T, Pointer>::max( std::function<bool( const T&, const T& )> comparator ) {
+			T largest( source->fetch() );
+
+			while ( source->has_element() ) {
+				if ( comparator( largest, source->peek() ) ) {
+					largest = source->fetch();
+				} else {
+					source->fetch();
+				}
+			}
+
+			return largest;
+		}
+
+		template<class T, template<class> class Pointer>
+		T stream<T, Pointer>::min( std::function<bool( const T&, const T& )> comparator ) {
+			T smallest( source->fetch() );
+
+			while ( source->has_element() ) {
+				if ( comparator( source->peek(), smallest ) ) {
+					smallest = source->fetch();
+				} else {
+					source->fetch();
+				}
+			}
+
+			return smallest;
 		}
 	}
 }
