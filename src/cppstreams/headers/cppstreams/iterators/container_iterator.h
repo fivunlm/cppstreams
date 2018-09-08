@@ -31,9 +31,9 @@ namespace cppstreams {
 			// DOCME
 			container_iterator( const Container& container );
 
-			virtual const T fetch();
-			virtual const T peek();
-			virtual bool has_element();
+			virtual const T fetch() override;
+			virtual const T peek() override;
+			virtual bool has_element() override;
 		};
 
 		// ==============================================================================

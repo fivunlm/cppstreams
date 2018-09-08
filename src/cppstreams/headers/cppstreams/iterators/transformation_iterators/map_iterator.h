@@ -23,9 +23,9 @@ namespace cppstreams {
 				// DOCME
 				map_iterator( const Pointer<iterators::iterator<In> >& source, const std::function<Out( const In& )>& mapper );
 
-				virtual const Out fetch();
-				virtual const Out peek();
-				virtual bool has_element();
+				virtual const Out fetch() override;
+				virtual const Out peek() override;
+				virtual bool has_element() override;
 			};
 
 			// ==============================================================================

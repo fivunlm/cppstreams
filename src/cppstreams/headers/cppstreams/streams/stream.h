@@ -42,12 +42,10 @@ namespace cppstreams {
 			// Intermediate Operations
 
 			// DOCME
-			// TESTME
 			virtual Pointer<stream<T, Pointer> > filter( std::function<bool( const T& )> filter );
 
 			// DOCME
-			// TESTME
-			// TODO: Make sure autodeduction works with lambdas
+			// TODO: Make sure autodeduction works at all
 			template<class Out>
 			Pointer<stream<Out, Pointer> > map( std::function<Out( const T& )> mapper );
 

@@ -32,9 +32,9 @@ namespace cppstreams {
 			template<std::size_t N>
 			array_iterator( const T( &array )[N] );
 
-			virtual const T fetch();
-			virtual const T peek();
-			virtual bool has_element();
+			virtual const T fetch() override;
+			virtual const T peek() override;
+			virtual bool has_element() override;
 		};
 
 		// ==============================================================================
