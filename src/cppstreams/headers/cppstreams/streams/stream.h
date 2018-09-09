@@ -81,6 +81,15 @@ namespace cppstreams {
 
 			// DOCME
 			virtual T min( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
+
+			// DOCME
+			// TODO: Make this method preferred
+			template<class Out>
+			Out reduce( std::function<Out( const T&, const Out& )> accumulator, Out identity = Out() );
+
+			// DOCME
+			template<class Out>
+			Out reduce( std::function<void( const T&, Out& )> accumulator, Out identity = Out() );
 		};
 
 		// ==============================================================================
@@ -191,6 +200,30 @@ namespace cppstreams {
 			}
 
 			return smallest;
+		}
+
+		template<class T, template<class> class Pointer>
+		template<class Out>
+		Out stream<T, Pointer>::reduce( std::function<Out( const T&, const Out& )> accumulator, Out identity ) {
+			Out result( identity );
+
+			while ( source->has_element() ) {
+				result = accumulator( source->fetch(), result );
+			}
+
+			return result;
+		}
+
+		template<class T, template<class> class Pointer>
+		template<class Out>
+		Out stream<T, Pointer>::reduce( std::function<void( const T&, Out& )> accumulator, Out identity ) {
+			Out result( identity );
+
+			while ( source->has_element() ) {
+				accumulator( source->fetch(), result );
+			}
+
+			return result;
 		}
 	}
 }

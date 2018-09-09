@@ -5,6 +5,8 @@
 //
 #include <gtest/gtest.h>
 
+#include <list>
+#include <set>
 #include <string>
 
 #include "utilities.h"
@@ -119,4 +121,18 @@ TEST( Stream, MultiFilter ) {
 
 	EXPECT_EQ( stream( values )->filter( is_even )->filter( is_even )->count(), 3 );
 	EXPECT_EQ( stream( values )->filter( is_odd )->filter( is_odd )->count(), 4 );
+}
+
+TEST( Stream, ReduceConst ) {
+	EXPECT_EQ( stream( values )->reduce( (std::function<int( const int&, const int& )>) std::plus<int>(), 0 ), 28 );
+	{int result = stream( values )->reduce<int>( (std::function<int( const int&, const int& )>) []( const int& val, const int& difference ) { return difference - val; }, 28 ); EXPECT_EQ( result, 0 ); }
+	EXPECT_EQ( stream( values )->reduce( (std::function<int( const int&, const int& )>) std::multiplies<int>(), 1 ), 5040 );
+	{ double result = stream( values )->reduce( (std::function<double( const int&, const double& )>) []( const int& val, const double& quotient ) { return quotient / val; }, 1.0 ); EXPECT_EQ( result, 1.0 / 5040.0 ); }
+}
+
+TEST( Stream, ReduceModify ) {
+	{ int result = stream( values )->reduce<int>( []( const int& val, int& sum ) { sum += val; }, 0 ); EXPECT_EQ( result, 28 ); }
+	{ int result = stream( values )->reduce<int>( []( const int& val, int& difference ) { difference -= val; }, 28 ); EXPECT_EQ( result, 0 ); }
+	{ int result = stream( values )->reduce<int>( []( const int& val, int& product ) { product *= val; }, 1 ); EXPECT_EQ( result, 5040 ); }
+	{ double result = stream( values )->reduce<double>( []( const int& val, double& quotient ) { quotient /= val; }, 1.0 ); EXPECT_EQ( result, 1.0 / 5040.0 ); }
 }
