@@ -11,6 +11,7 @@
 #include <memory>
 
 #include "cppstreams/iterator.h"
+#include "cppstreams/streams/collector.h"
 
 namespace cppstreams {
 	namespace streams {
@@ -68,6 +69,14 @@ namespace cppstreams {
 
 			// DOCME
 			virtual bool none_match( std::function<bool( const T& )> filter );
+
+			// DOCME
+			template<class Container>
+			Container collect( const Pointer<collectors::collector<T, Container> >& collector = streams::to_vector<T, Pointer> );
+
+			// DOCME
+			// TESTME
+			std::vector<T> collect();
 
 			// DOCME
 			virtual size_t count();
@@ -151,6 +160,17 @@ namespace cppstreams {
 		template<class T, template<class> class Pointer>
 		bool stream<T, Pointer>::none_match( std::function<bool( const T& )> filter ) {
 			return !any_match( filter );
+		}
+
+		template<class T, template<class> class Pointer>
+		template<class Container>
+		Container stream<T, Pointer>::collect( const Pointer<collectors::collector<T, Container> >& collector ) {
+			return reduce( collector->accumulator(), collector->create_instance() );
+		}
+
+		template<class T, template<class> class Pointer>
+		std::vector<T> stream<T, Pointer>::collect() {
+			return collect( streams::to_vector<T, Pointer>() );
 		}
 
 		template<class T, template<class> class Pointer>

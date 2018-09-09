@@ -21,6 +21,7 @@ namespace cppstreams {
 // Includes
 #include <memory>
 
+#include "cppstreams/streams/collector.h"
 #include "cppstreams/streams/stream.h"
 #include "cppstreams/iterator.h"
 

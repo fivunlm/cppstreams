@@ -136,3 +136,10 @@ TEST( Stream, ReduceModify ) {
 	{ int result = stream( values )->reduce<int>( []( const int& val, int& product ) { product *= val; }, 1 ); EXPECT_EQ( result, 5040 ); }
 	{ double result = stream( values )->reduce<double>( []( const int& val, double& quotient ) { quotient /= val; }, 1.0 ); EXPECT_EQ( result, 1.0 / 5040.0 ); }
 }
+
+TEST( Stream, Collect ) {
+	EXPECT_EQ( stream( values )->collect( cppstreams::streams::to_list<int>() ), std::list<int>( std::begin( values ), std::end( values ) ) );
+	EXPECT_EQ( stream( values )->collect( cppstreams::streams::to_set<int>() ), std::set<int>( std::begin( values ), std::end( values ) ) );
+	EXPECT_EQ( stream( values )->collect( cppstreams::streams::to_vector<int>() ), std::vector<int>( std::begin( values ), std::end( values ) ) );
+	EXPECT_EQ( stream( values )->collect(), std::vector<int>( std::begin( values ), std::end( values ) ) );
+}
