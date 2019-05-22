@@ -1,6 +1,6 @@
 //
 // Copyright (c) 2016-2018 Fernando Damian Lopez
-// Copyright (c) 2018 Yannick Schinko
+// Copyright (c) 2018-2019 Yannick Schinko
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 //
 #ifndef CPPSTREAMS_INCLUDE_GUARD_CPPSTREAMS_ITERATORS_TRANSFORMATION_ITERATORS_TRANSFORMATION_ITERATOR_H
