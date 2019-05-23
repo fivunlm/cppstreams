@@ -124,10 +124,10 @@ TEST( Stream, MultiFilter ) {
 }
 
 TEST( Stream, ReduceConst ) {
-	EXPECT_EQ( stream( values )->reduce( (std::function<int( const int&, const int& )>) std::plus<int>(), 0 ), 28 );
-	{int result = stream( values )->reduce<int>( (std::function<int( const int&, const int& )>) []( const int& val, const int& difference ) { return difference - val; }, 28 ); EXPECT_EQ( result, 0 ); }
-	EXPECT_EQ( stream( values )->reduce( (std::function<int( const int&, const int& )>) std::multiplies<int>(), 1 ), 5040 );
-	{ double result = stream( values )->reduce( (std::function<double( const int&, const double& )>) []( const int& val, const double& quotient ) { return quotient / val; }, 1.0 ); EXPECT_EQ( result, 1.0 / 5040.0 ); }
+	EXPECT_EQ( stream( values )->reduce( static_cast<std::function<int( const int&, const int& )>>(std::plus<int>()), 0 ), 28 );
+	{int result = stream( values )->reduce<int>( static_cast<std::function<int( const int&, const int& )>>([]( const int& val, const int& difference ) { return difference - val; }), 28 ); EXPECT_EQ( result, 0 ); }
+	EXPECT_EQ( stream( values )->reduce( static_cast<std::function<int( const int&, const int& )>>(std::multiplies<int>()), 1 ), 5040 );
+	{ double result = stream( values )->reduce( static_cast<std::function<double( const int&, const double& )>>([]( const int& val, const double& quotient ) { return quotient / val; }), 1.0 ); EXPECT_EQ( result, 1.0 / 5040.0 ); }
 }
 
 TEST( Stream, ReduceModify ) {
