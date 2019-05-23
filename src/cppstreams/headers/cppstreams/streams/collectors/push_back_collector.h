@@ -24,7 +24,7 @@ namespace cppstreams {
 
 			template<class T, class Container>
 			push_back_collector<T, Container>::push_back_collector() :
-				collector(
+				collector<T, Container>::collector(
 					[]() { return Container(); },
 					[]( const T& val, Container& container ) { container.push_back( val ); }
 				) {}

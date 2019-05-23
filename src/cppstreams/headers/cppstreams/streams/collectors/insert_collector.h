@@ -24,7 +24,7 @@ namespace cppstreams {
 
 			template<class T, class Container>
 			insert_collector<T, Container>::insert_collector() :
-				collector(
+				collector<T, Container>::collector(
 					[]() { return Container(); },
 					[]( const T& val, Container& container ) { container.insert( val ); }
 				) {}
