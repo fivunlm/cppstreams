@@ -77,20 +77,20 @@ namespace cppstreams {
 
 		// DOCME
 		// TESTME
-		template<class T, class Allocator = std::deque<T>::allocator_type, template<class> class Pointer = std::shared_ptr>
+		template<class T, class Allocator = typename std::deque<T>::allocator_type, template<class> class Pointer = std::shared_ptr>
 		Pointer<collectors::collector<T, std::deque<T, Allocator> > > to_deque() {
 			return push_back_collector<T, std::deque<T, Allocator>, Pointer>();
 		}
 
 		// DOCME
 		// TESTME
-		template<class T, class Allocator = std::forward_list<T>::allocator_type, template<class> class Pointer = std::shared_ptr>
+		template<class T, class Allocator = typename std::forward_list<T>::allocator_type, template<class> class Pointer = std::shared_ptr>
 		Pointer<collectors::collector<T, std::forward_list<T, Allocator> > > to_forward_list() {
 			return push_back_collector<T, std::forward_list<T, Allocator>, Pointer>();
 		}
 
 		// DOCME
-		template<class T, class Allocator = std::list<T>::allocator_type, template<class> class Pointer = std::shared_ptr>
+		template<class T, class Allocator = typename std::list<T>::allocator_type, template<class> class Pointer = std::shared_ptr>
 		Pointer<collectors::collector<T, std::list<T, Allocator> > > to_list() {
 			return push_back_collector<T, std::list<T, Allocator>, Pointer>();
 		}
@@ -102,7 +102,7 @@ namespace cppstreams {
 		}
 
 		// DOCME
-		template<class T, class Allocator = std::vector<T>::allocator_type, template<class> class Pointer = std::shared_ptr>
+		template<class T, class Allocator = typename std::vector<T>::allocator_type, template<class> class Pointer = std::shared_ptr>
 		Pointer<collectors::collector<T, std::vector<T, Allocator> > > to_vector() {
 			return push_back_collector<T, std::vector<T, Allocator>, Pointer>();
 		}
@@ -111,7 +111,7 @@ namespace cppstreams {
 
 		// DOCME
 		// TESTME
-		template<class Key, class T, class Comparator = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> >, template<class> class Pointer = std::shared_ptr>
+		template<class Key, class T, class Comparator = std::less<Key>, class Allocator = typename std::allocator<std::pair<const Key, T> >, template<class> class Pointer = std::shared_ptr>
 		Pointer<collectors::collector<std::pair<const Key, T>, std::map<Key, T, Comparator, Allocator> > > to_map() {
 			return insert_collector<std::pair<const Key, T>, std::map<Key, T, Comparator, Allocator>, Pointer>();
 		}
