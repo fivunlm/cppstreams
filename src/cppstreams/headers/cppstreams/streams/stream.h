@@ -170,7 +170,7 @@ namespace cppstreams {
 
 		template<class T, template<class> class Pointer>
 		std::vector<T> stream<T, Pointer>::collect() {
-			return collect( streams::to_vector<T, std::vector<T>::allocator_type, Pointer>() );
+			return collect( streams::to_vector<T, typename std::vector<T>::allocator_type, Pointer>() );
 		}
 
 		template<class T, template<class> class Pointer>
