@@ -61,6 +61,17 @@ TEST( Stream, Count ) {
 	EXPECT_EQ( stream( values )->filter( is_even )->map<std::string>( to_string )->count(), 3 );
 }
 
+TEST( Stream, FindFirst ) {
+	EXPECT_EQ( stream(values)->find_first( is_even ), 2 );
+	EXPECT_EQ( stream(values)->find_first( is_odd ), 1 );
+
+	EXPECT_EQ( stream(values)->skip( 2 )->find_first(is_even), 4 );
+    EXPECT_EQ( stream(values)->skip( 2 )->find_first(is_odd), 3 );
+
+	EXPECT_THROW( stream( values )->filter( is_even )->find_first( is_odd ), std::range_error );
+	EXPECT_THROW( stream( values )->filter( is_odd )->find_first( is_even ), std::range_error );
+}
+
 TEST( Stream, Max ) {
 	EXPECT_EQ( stream( values )->max(), 7 );
 

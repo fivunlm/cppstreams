@@ -83,7 +83,6 @@ For the full story check this [Medium post](https://medium.com/@lopez.fernando.d
 There are a lot of things still to do:
 
 * Add `find_any` method
-* Add `find_first` method
 * Add `sort` method
 * Infinite streams
 * Performance analysis

@@ -9,6 +9,9 @@
 // Includes
 #include <functional>
 #include <memory>
+#if CPPSTREAMS_CPP17
+#include <optional>
+#endif
 
 #include "cppstreams/iterator.h"
 #include "cppstreams/streams/collector.h"
@@ -80,6 +83,9 @@ namespace cppstreams {
 
 			// DOCME
 			virtual size_t count();
+
+			// DOCME
+            virtual T find_first( std::function<bool( const T& )> filter );
 
 			// DOCME
 			// TESTME
@@ -183,6 +189,18 @@ namespace cppstreams {
 			}
 
 			return count;
+		}
+
+		template <class T, template <class> class Pointer>
+		T stream<T, Pointer>::find_first( std::function<bool( const T& )> filter ) {
+			// Loop until we find an element or throw
+			while ( true ) {
+				if ( filter( source->peek() ) )
+					return source->fetch();
+				else
+					// Fetch to advance the iterator
+					source->fetch();
+			}
 		}
 
 		template<class T, template<class> class Pointer>
