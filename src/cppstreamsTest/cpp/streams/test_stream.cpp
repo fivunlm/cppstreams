@@ -72,6 +72,19 @@ TEST( Stream, FindFirst ) {
 	EXPECT_THROW( stream( values )->filter( is_odd )->find_first( is_even ), std::range_error );
 }
 
+#if CPPSTREAMS_CPP17
+TEST( Stream, FindFirstOpt ) {
+	EXPECT_EQ( stream(values)->find_first_opt( is_even ), 2 );
+	EXPECT_EQ( stream(values)->find_first_opt( is_odd ), 1 );
+
+	EXPECT_EQ( stream(values)->skip( 2 )->find_first_opt(is_even), 4 );
+    EXPECT_EQ( stream(values)->skip( 2 )->find_first_opt(is_odd), 3 );
+
+	EXPECT_FALSE( stream( values )->filter( is_even )->find_first_opt( is_odd ).has_value() );
+	EXPECT_FALSE( stream( values )->filter( is_odd )->find_first_opt( is_even ).has_value() );
+}
+#endif
+
 TEST( Stream, Max ) {
 	EXPECT_EQ( stream( values )->max(), 7 );
 
@@ -99,6 +112,35 @@ TEST( Stream, MaxCustom ) {
 	EXPECT_THROW( stream( values )->filter( is_odd )->filter( is_even )->max( std::greater<int>() ), std::range_error );
 }
 
+#if CPPSTREAMS_CPP17
+TEST( Stream, MaxOpt ) {
+	EXPECT_EQ( stream( values )->max_opt(), 7 );
+
+	EXPECT_EQ( stream( values )->filter( is_even )->max_opt(), 6 );
+	EXPECT_EQ( stream( values )->filter( is_odd )->max_opt(), 7 );
+
+	EXPECT_EQ( stream( values )->limit( 2 )->max_opt(), 2 );
+	EXPECT_EQ( stream( values )->skip( 2 )->max_opt(), 7 );
+
+	EXPECT_FALSE( stream( values )->filter( is_even )->filter( is_odd )->max_opt().has_value() );
+	EXPECT_FALSE( stream( values )->filter( is_odd )->filter( is_even )->max_opt().has_value() );
+}
+
+TEST( Stream, MaxCustomOpt ) {
+	// With custom comparator
+	EXPECT_EQ( stream( values )->max_opt( std::greater<int>() ), 1 );
+
+	EXPECT_EQ( stream( values )->filter( is_even )->max_opt( std::greater<int>() ), 2 );
+	EXPECT_EQ( stream( values )->filter( is_odd )->max_opt( std::greater<int>() ), 1 );
+
+	EXPECT_EQ( stream( values )->limit( 2 )->max_opt( std::greater<int>() ), 1 );
+	EXPECT_EQ( stream( values )->skip( 2 )->max_opt( std::greater<int>() ), 3 );
+
+	EXPECT_FALSE( stream( values )->filter( is_even )->filter( is_odd )->max_opt( std::greater<int>() ).has_value() );
+	EXPECT_FALSE( stream( values )->filter( is_odd )->filter( is_even )->max_opt( std::greater<int>() ).has_value() );
+}
+#endif
+
 TEST( Stream, Min ) {
 	EXPECT_EQ( stream( values )->min(), 1 );
 
@@ -125,6 +167,35 @@ TEST( Stream, MinCustom ) {
 	EXPECT_THROW( stream( values )->filter( is_even )->filter( is_odd )->min( std::greater<int>() ), std::range_error );
 	EXPECT_THROW( stream( values )->filter( is_odd )->filter( is_even )->min( std::greater<int>() ), std::range_error );
 }
+
+#if CPPSTREAMS_CPP17
+TEST( Stream, MinOpt ) {
+	EXPECT_EQ( stream( values )->min_opt(), 1 );
+
+	EXPECT_EQ( stream( values )->filter( is_even )->min_opt(), 2 );
+	EXPECT_EQ( stream( values )->filter( is_odd )->min_opt(), 1 );
+
+	EXPECT_EQ( stream( values )->limit( 2 )->min_opt(), 1 );
+	EXPECT_EQ( stream( values )->skip( 2 )->min_opt(), 3 );
+
+	EXPECT_FALSE( stream( values )->filter( is_even )->filter( is_odd )->min_opt().has_value() );
+	EXPECT_FALSE( stream( values )->filter( is_odd )->filter( is_even )->min_opt().has_value() );
+}
+
+TEST( Stream, MinCustomOpt ) {
+	// With custom comparator
+	EXPECT_EQ( stream( values )->min_opt( std::greater<int>() ), 7 );
+
+	EXPECT_EQ( stream( values )->filter( is_even )->min_opt( std::greater<int>() ), 6 );
+	EXPECT_EQ( stream( values )->filter( is_odd )->min_opt( std::greater<int>() ), 7 );
+
+	EXPECT_EQ( stream( values )->limit( 2 )->min_opt( std::greater<int>() ), 2 );
+	EXPECT_EQ( stream( values )->skip( 2 )->min_opt( std::greater<int>() ), 7 );
+
+	EXPECT_FALSE( stream( values )->filter( is_even )->filter( is_odd )->min_opt( std::greater<int>() ).has_value() );
+	EXPECT_FALSE( stream( values )->filter( is_odd )->filter( is_even )->min_opt( std::greater<int>() ).has_value() );
+}
+#endif
 
 TEST( Stream, MultiFilter ) {
 	EXPECT_EQ( stream( values )->filter( is_even )->filter( is_odd )->count(), 0 );

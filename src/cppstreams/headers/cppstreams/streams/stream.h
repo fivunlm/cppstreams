@@ -90,6 +90,11 @@ namespace cppstreams {
 			// DOCME
             virtual T find_first( std::function<bool( const T& )> filter );
 
+#if CPPSTREAMS_CPP17
+            // DOCME
+            virtual std::optional<T> find_first_opt(std::function<bool(const T&)> filter);
+#endif
+
 			// DOCME
 			// TESTME
 			virtual void for_each( std::function<void( const T& )> consumer );
@@ -97,8 +102,18 @@ namespace cppstreams {
 			// DOCME
 			virtual T max( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
 
+#if CPPSTREAMS_CPP17
+            // DOCME
+            virtual std::optional<T> max_opt( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
+#endif
+
 			// DOCME
 			virtual T min( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
+
+#if CPPSTREAMS_CPP17
+            // DOCME
+            virtual std::optional<T> min_opt( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
+#endif
 
 			// DOCME
 			// TODO: Make this method preferred
@@ -198,13 +213,30 @@ namespace cppstreams {
 		T stream<T, Pointer>::find_first( std::function<bool( const T& )> filter ) {
 			// Loop until we find an element or throw
 			while ( true ) {
-				if ( filter( source->peek() ) )
+				if ( filter( source->peek() ) ) {
 					return source->fetch();
-				else
+				} else {
 					// Fetch to advance the iterator
 					source->fetch();
+				}
 			}
 		}
+
+#if CPPSTREAMS_CPP17
+		template <class T, template <class> class Pointer>
+		std::optional<T> stream<T, Pointer>::find_first_opt( std::function<bool( const T& )> filter ) {
+			while ( source->has_element() ) {
+				if ( filter( source->peek() ) ) {
+					return source->fetch();
+				} else {
+					// Fetch to advance the iterator
+					source->fetch();
+				}
+			}
+
+			return std::nullopt;
+		}
+#endif
 
 		template<class T, template<class> class Pointer>
 		void stream<T, Pointer>::for_each( std::function<void( const T& )> consumer ) {
@@ -221,12 +253,34 @@ namespace cppstreams {
 				if ( comparator( largest, source->peek() ) ) {
 					largest = source->fetch();
 				} else {
+					// Fetch to advance the iterator
 					source->fetch();
 				}
 			}
 
 			return largest;
 		}
+
+#if CPPSTREAMS_CPP17
+		template<class T, template<class> class Pointer>
+		std::optional<T> stream<T, Pointer>::max_opt( std::function<bool( const T&, const T& )> comparator ) {
+			if ( !source->has_element() )
+				return std::nullopt;
+
+			T largest( source->fetch() );
+
+			while ( source->has_element() ) {
+				if ( comparator( largest, source->peek() ) ) {
+					largest = source->fetch();
+				} else {
+					// Fetch to advance the iterator
+					source->fetch();
+				}
+			}
+
+			return largest;
+		}
+#endif
 
 		template<class T, template<class> class Pointer>
 		T stream<T, Pointer>::min( std::function<bool( const T&, const T& )> comparator ) {
@@ -236,12 +290,34 @@ namespace cppstreams {
 				if ( comparator( source->peek(), smallest ) ) {
 					smallest = source->fetch();
 				} else {
+					// Fetch to advance the iterator
 					source->fetch();
 				}
 			}
 
 			return smallest;
 		}
+
+#if CPPSTREAMS_CPP17
+		template<class T, template<class> class Pointer>
+		std::optional<T> stream<T, Pointer>::min_opt( std::function<bool( const T&, const T& )> comparator ) {
+			if ( !source->has_element() )
+				return std::nullopt;
+
+			T smallest(source->fetch());
+
+			while ( source->has_element() ) {
+				if ( comparator( source->peek(), smallest ) ) {
+					smallest = source->fetch();
+				} else {
+					// Fetch to advance the iterator
+					source->fetch();
+				}
+			}
+
+			return smallest;
+		}
+#endif
 
 		template<class T, template<class> class Pointer>
 		template<class Out>
