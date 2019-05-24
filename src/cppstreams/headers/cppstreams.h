@@ -10,7 +10,8 @@
 
 /// Check for C++17 support
 #ifndef CPPSTREAMS_CPP17
-#	if __cplusplus >= 201703L
+#	if (__cplusplus >= 201703L) || \
+	(defined(_MSVC_LANG) && (_MSVC_LANG >= 201703L))
 /// C++17 available
 #		define CPPSTREAMS_CPP17 1
 #	else
@@ -22,7 +23,8 @@
 /// Check for C++14 support
 #ifndef CPPSTREAMS_CPP14
 #	if CPPSTREAMS_CPP17 || \
-	(__cplusplus >= 201402L)
+	(__cplusplus >= 201402L) || \
+    (defined(_MSVC_LANG) && (_MSVC_LANG >= 201402L))
 /// C++14 available
 #		define CPPSTREAMS_CPP14 1
 #	else
