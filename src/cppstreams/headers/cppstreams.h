@@ -24,7 +24,7 @@
 #ifndef CPPSTREAMS_CPP14
 #	if CPPSTREAMS_CPP17 || \
 	(__cplusplus >= 201402L) || \
-    (defined(_MSVC_LANG) && (_MSVC_LANG >= 201402L))
+	(defined(_MSVC_LANG) && (_MSVC_LANG >= 201402L))
 /// C++14 available
 #		define CPPSTREAMS_CPP14 1
 #	else
