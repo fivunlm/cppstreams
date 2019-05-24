@@ -48,7 +48,7 @@ namespace cppstreams {
 			static const Pointer<collectors::collector<T, Container> > collector(
 				Pointer<collectors::collector<T, Container> >(
 					new collectors::collector<T, Container>( instance_provider, accumulator_function )
-				)
+					)
 			);
 
 			return collector;

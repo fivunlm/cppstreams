@@ -88,11 +88,11 @@ namespace cppstreams {
 			virtual size_t count();
 
 			// DOCME
-            virtual T find_first( std::function<bool( const T& )> filter );
+			virtual T find_first( std::function<bool( const T& )> filter );
 
 #if CPPSTREAMS_CPP17
-            // DOCME
-            virtual std::optional<T> find_first_opt(std::function<bool(const T&)> filter);
+			// DOCME
+			virtual std::optional<T> find_first_opt( std::function<bool( const T& )> filter );
 #endif
 
 			// DOCME
@@ -103,16 +103,16 @@ namespace cppstreams {
 			virtual T max( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
 
 #if CPPSTREAMS_CPP17
-            // DOCME
-            virtual std::optional<T> max_opt( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
+			// DOCME
+			virtual std::optional<T> max_opt( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
 #endif
 
 			// DOCME
 			virtual T min( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
 
 #if CPPSTREAMS_CPP17
-            // DOCME
-            virtual std::optional<T> min_opt( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
+			// DOCME
+			virtual std::optional<T> min_opt( std::function<bool( const T&, const T& )> comparator = std::less<T>() );
 #endif
 
 			// DOCME
@@ -304,7 +304,7 @@ namespace cppstreams {
 			if ( !source->has_element() )
 				return std::nullopt;
 
-			T smallest(source->fetch());
+			T smallest( source->fetch() );
 
 			while ( source->has_element() ) {
 				if ( comparator( source->peek(), smallest ) ) {
