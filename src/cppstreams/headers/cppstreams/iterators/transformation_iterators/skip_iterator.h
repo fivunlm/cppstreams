@@ -6,6 +6,10 @@
 #ifndef CPPSTREAMS_INCLUDE_GUARD_CPPSTREAMS_ITERATORS_TRANSFORMATION_ITERATORS_SKIP_ITERATOR_H
 #define CPPSTREAMS_INCLUDE_GUARD_CPPSTREAMS_ITERATORS_TRANSFORMATION_ITERATORS_SKIP_ITERATOR_H
 
+// Include version check
+#include "cppstreams/version_check.h"
+
+// Includes
 #include <functional>
 
 #include "cppstreams/iterators/transformation_iterators/transformation_iterator.h"

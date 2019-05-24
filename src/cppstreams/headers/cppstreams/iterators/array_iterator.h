@@ -6,6 +6,10 @@
 #ifndef CPPSTREAMS_INCLUDE_GUARD_CPPSTREAMS_ITERATORS_ARRAY_ITERATOR_H
 #define CPPSTREAMS_INCLUDE_GUARD_CPPSTREAMS_ITERATORS_ARRAY_ITERATOR_H
 
+// Include version check
+#include "cppstreams/version_check.h"
+
+// Includes
 #include <iterator>
 
 #include "cppstreams/iterators/iterator.h"

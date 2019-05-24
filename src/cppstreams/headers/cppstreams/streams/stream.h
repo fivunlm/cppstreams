@@ -6,6 +6,9 @@
 #ifndef CPPSTREAMS_INCLUDE_GUARD_CPPSTREAMS_STREAMS_STREAM_H
 #define CPPSTREAMS_INCLUDE_GUARD_CPPSTREAMS_STREAMS_STREAM_H
 
+// Include version check
+#include "cppstreams/version_check.h"
+
 // Includes
 #include <functional>
 #include <memory>
