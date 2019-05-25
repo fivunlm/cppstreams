@@ -87,7 +87,7 @@ matrix:
             - clang-4.0
       env:
         - BUILD_NAME=Clang-4
-        - MATRIX_EVAL="export CC=clang-4.0 && export CXX=clang++-4.0 && export CXX_VERSION=c++17 && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang-4.0 && export CXX=clang++-4.0 && export CXX_VERSION=c++14 && sudo apt-get remove gcc g++"
     - os: linux
       addons:
         apt:
@@ -97,7 +97,7 @@ matrix:
             - clang-5.0
       env:
         - BUILD_NAME=Clang-5
-        - MATRIX_EVAL="export CC=clang-5.0 && export CXX=clang++-5.0 && export CXX_VERSION=c++17 && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang-5.0 && export CXX=clang++-5.0 && export CXX_VERSION=c++14 && sudo apt-get remove gcc g++"
     - os: linux
       addons:
         apt:
@@ -108,7 +108,7 @@ matrix:
             - clang-6.0
       env:
         - BUILD_NAME=Clang-6
-        - MATRIX_EVAL="export CC=clang-6.0 && export CXX=clang++-6.0 && export CXX_VERSION=c++17 && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang-6.0 && export CXX=clang++-6.0 && export CXX_VERSION=c++14 && sudo apt-get remove gcc g++"
     - os: linux
       addons:
         apt:
@@ -117,8 +117,8 @@ matrix:
           packages:
             - clang-7.0
       env:
-        - BUILD_NAME=Clang-6
-        - MATRIX_EVAL="export CC=clang-7.0 && export CXX=clang++-7.0 && export CXX_VERSION=c++17 && sudo apt-get remove gcc g++"
+        - BUILD_NAME=Clang-7
+        - MATRIX_EVAL="export CC=clang-7.0 && export CXX=clang++-7.0 && export CXX_VERSION=c++14 && sudo apt-get remove gcc g++"
     - os: linux
       addons:
         apt:
@@ -127,7 +127,7 @@ matrix:
           packages:
             - clang-8.0
       env:
-        - BUILD_NAME=Clang-6
+        - BUILD_NAME=Clang-8
         - MATRIX_EVAL="export CC=clang-8.0 && export CXX=clang++-8.0 && export CXX_VERSION=c++17 && sudo apt-get remove gcc g++"
 
 before_install:
