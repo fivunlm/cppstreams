@@ -8,6 +8,10 @@ sudo: required
 matrix:
   include:
     - os: linux
+      before_install:
+        - eval "${MATRIX_EVAL}"
+        - $CC --version
+        - $CXX --version
       env:
         - BUILD_NAME=GCC-4
         - MATRIX_EVAL="export CC=gcc && export CXX=g++ && export CXX_VERSION=c++1y"
