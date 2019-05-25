@@ -138,7 +138,7 @@ matrix:
             - clang-8
       env:
         - BUILD_NAME=Clang-8
-        - MATRIX_EVAL="export CC=clang-8 && export CXX=clang++-8 && export CXX_VERSION=c++17 && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang-8 && export CXX=clang++-8 && export CXX_VERSION=c++14 && sudo apt-get remove gcc g++"
 
 before_install:
   - set -x
