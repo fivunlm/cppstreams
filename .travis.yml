@@ -113,22 +113,22 @@ matrix:
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-7.0
+            - llvm-toolchain-trusty-7
           packages:
-            - clang-7.0
+            - clang-7
       env:
         - BUILD_NAME=Clang-7
-        - MATRIX_EVAL="export CC=clang-7.0 && export CXX=clang++-7.0 && export CXX_VERSION=c++14 && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang-7 && export CXX=clang++-7 && export CXX_VERSION=c++14 && sudo apt-get remove gcc g++"
     - os: linux
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-8.0
+            - llvm-toolchain-trusty-8
           packages:
-            - clang-8.0
+            - clang-8
       env:
         - BUILD_NAME=Clang-8
-        - MATRIX_EVAL="export CC=clang-8.0 && export CXX=clang++-8.0 && export CXX_VERSION=c++17 && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang-8 && export CXX=clang++-8 && export CXX_VERSION=c++17 && sudo apt-get remove gcc g++"
 
 before_install:
   - set -x
