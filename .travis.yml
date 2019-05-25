@@ -131,11 +131,13 @@ matrix:
         - MATRIX_EVAL="export CC=clang-8.0 && export CXX=clang++-8.0 && export CXX_VERSION=c++17 && sudo apt-get remove gcc g++"
 
 before_install:
+  - set -x
   - eval "${MATRIX_EVAL}"
   - if [[ $CC == gcc* ]]; then sudo update-alternatives --install $(which gcc) gcc $(which $CC) 100; sudo update-alternatives --install $(which g++) g++ $(which $CXX) 100; fi
   - if [[ $CC == clang* ]]; then sudo update-alternatives --install $(which clang) clang $(which $CC) 100; sudo update-alternatives --install $(which clang++) clang++ $(which $CXX) 100; fi  
   - $CC --version
   - $CXX --version
+  - set +x
 
 install:
   - ./gradlew --console=plain
