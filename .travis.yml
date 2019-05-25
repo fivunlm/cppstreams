@@ -10,7 +10,7 @@ matrix:
     - os: linux
       env:
         - BUILD_NAME=GCC-4
-        - MATRIX_EVAL="export CC=gcc-4 && export CXX=g++-4 && export CXX_VERSION=c++1y"
+        - MATRIX_EVAL="export CC=gcc && export CXX=g++ && export CXX_VERSION=c++1y"
     - os: linux
       addons:
         apt:
