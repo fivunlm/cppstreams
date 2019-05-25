@@ -75,7 +75,7 @@ matrix:
         - $CXX --version
       env:
         - BUILD_NAME=Clang-3.4
-        - MATRIX_EVAL="export CC=clang && export CXX=clang++ && export CXX_VERSION=c++1y && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang && export CXX=clang++ && export CXX_VERSION=c++11 && sudo apt-get remove gcc g++"
     - os: linux
       addons:
         apt:
@@ -85,7 +85,7 @@ matrix:
             - clang-3.9
       env:
         - BUILD_NAME=Clang-3
-        - MATRIX_EVAL="export CC=clang-3.9 && export CXX=clang++-3.9 && export CXX_VERSION=c++14 && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang-3.9 && export CXX=clang++-3.9 && export CXX_VERSION=c++11 && sudo apt-get remove gcc g++"
     - os: linux
       addons:
         apt:
