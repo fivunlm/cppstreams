@@ -8,16 +8,6 @@ sudo: required
 matrix:
   include:
     - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-3
-      env:
-        - BUILD_NAME=GCC-3 
-        - MATRIX_EVAL="export CC=gcc-3 && export CXX=g++-3 && export CXX_VERSION=c++0x"
-    - os: linux
       env:
         - BUILD_NAME=GCC-4
         - MATRIX_EVAL="export CC=gcc-4 && export CXX=g++-4 && export CXX_VERSION=c++1y"
