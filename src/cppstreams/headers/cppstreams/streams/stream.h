@@ -78,11 +78,10 @@ namespace cppstreams {
 
 			// DOCME
 			template<class Container>
-			Container collect( const Pointer<collectors::collector<T, Container> >& collector = streams::to_vector<T, Pointer> );
+			Container collect( const Pointer<collectors::collector<T, Container> >& collector );
 
 			// DOCME
-			// TESTME
-			std::vector<T> collect();
+			virtual std::vector<T> collect();
 
 			// DOCME
 			virtual size_t count();
