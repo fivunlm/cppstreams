@@ -24,6 +24,10 @@ apply plugin: "visual-studio"
 apply plugin: "com.diffplug.gradle.spotless"
 
 allprojects {
+    ext {
+        if (System.env.CXX_VERSION != null) cxxVersion = System.env.CXX_VERSION
+    }
+
     model {
         platforms {
             x86 {
@@ -37,6 +41,24 @@ allprojects {
         buildTypes {
             debug
             release
+        }
+    }
+
+    if (project.hasProperty("cxxVersion")) {
+        model {
+            binaries {
+                all {
+                    if (toolChain in Gcc) {
+                        cppCompiler.args "-std=${cxxVersion}"
+                    }
+                    if (toolChain in Clang) {
+                        cppCompiler.args "-std=${cxxVersion}"
+                    }
+                    if (toolChain in VisualCpp) {
+                        cppCompiler.args "/std:${cxxVersion}"
+                    }
+                }
+            }
         }
     }
 }
@@ -65,10 +87,10 @@ model {
     binaries {
         all {
             if (toolChain in Gcc) {
-                cppCompiler.args "-std=c++11", "-Wall", "-Wextra", "-fPIC"
+                cppCompiler.args "-Wall", "-Wextra", "-fPIC"
             }
             if (toolChain in Clang) {
-                cppCompiler.args "-std=c++11", "-Weverything", "-Wno-reserved-id-macro", "-Wno-deprecated-dynamic-exception-spec", "-Wno-c++98-compat", "-Wno-sign-conversion"
+                cppCompiler.args "-Weverything", "-Wno-reserved-id-macro", "-Wno-deprecated-dynamic-exception-spec", "-Wno-c++98-compat", "-Wno-sign-conversion"
             }
             if (toolChain in VisualCpp) {
                 cppCompiler.args "/W4", "/FS", "/EHsc"

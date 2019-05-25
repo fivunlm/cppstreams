@@ -33,11 +33,11 @@ model {
         }
         withType(StaticLibraryBinarySpec) {
             if (toolChain in Gcc) {
-                cppCompiler.args "-std=c++11", "-w", "-Ofast", "-g0", "-pthread"
+                cppCompiler.args "-w", "-Ofast", "-g0", "-pthread"
                 linker.args "-pthread"
             }
             if (toolChain in Clang) {
-                cppCompiler.args "-std=c++11", "-w", "-Ofast", "-g0", "-pthread"
+                cppCompiler.args "-w", "-Ofast", "-g0", "-pthread"
                 linker.args "-pthread"
             }
             if (toolChain in VisualCpp) {

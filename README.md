@@ -70,6 +70,30 @@ Use the following to just build the project and all its dependencies without per
 ./gradlew assemble
 ```
 
+### Specifying the C++ Version
+
+If you want to compile this project with a different C++ version than which is the default of your compiler, you can do it in several ways. It is passed
+directly to the compiler. So if you specify the value `c++1y` and you're compiling with gcc/g++, then the code will get compiled with the additional flag
+`-std=c++1y`. So be sure to only specify the version and not the whole flag.  
+Ordered from lowest to highest priority:
+
+- Set `cxxVersion` in your `gradle.properties` file (check gradle documentation on where it goes. Typically it's located under `~/.gradle/gradle.properties`):  
+  ```
+  cxxVersion=c++17
+  ```
+- Add the `-PcxxVersion=` flag to the gradle command line:  
+  ```sh
+  ./gradlew -PcxxVersion=c++17 assemble
+  ```
+- Export the environment variable `CXX_VERSION`:  
+  ```sh
+  export CXX_VERSION=c++17
+  ```
+- Specify the environment variable `CXX_VERSION` on the gradle command line:  
+  ```sh
+  CXX_VERSION=c++17 ./gradlew assemble
+  ```
+
 ## Usage
 
 Coming Soon&trade;
