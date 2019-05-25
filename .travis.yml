@@ -63,7 +63,7 @@ matrix:
         - $CXX --version
       env:
         - BUILD_NAME=OSX-Clang
-        - MATRIX_EVAL="export CC=clang && export CXX=clang++ && export CXX_VERSION=c++17"
+        - MATRIX_EVAL="export CC=clang && export CXX=clang++ && export CXX_VERSION=c++14"
     - os: linux
       addons:
         apt:
