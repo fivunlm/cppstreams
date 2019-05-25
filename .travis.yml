@@ -8,13 +8,19 @@ sudo: required
 matrix:
   include:
     - os: linux
-      before_install:
-        - eval "${MATRIX_EVAL}"
-        - $CC --version
-        - $CXX --version
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-3
+      env:
+        - BUILD_NAME=GCC-3 
+        - MATRIX_EVAL="export CC=gcc-3 && export CXX=g++-3 && export CXX_VERSION=c++0x"
+    - os: linux
       env:
         - BUILD_NAME=GCC-4
-        - MATRIX_EVAL="export CC=gcc && export CXX=g++"
+        - MATRIX_EVAL="export CC=gcc-3 && export CXX=g++-3 && export CXX_VERSION=c++1y"
     - os: linux
       addons:
         apt:
@@ -24,7 +30,7 @@ matrix:
             - g++-5
       env:
         - BUILD_NAME=GCC-5
-        - MATRIX_EVAL="export CC=gcc-5 && export CXX=g++-5"
+        - MATRIX_EVAL="export CC=gcc-5 && export CXX=g++-5 && export CXX_VERSION=c++14"
     - os: linux
       addons:
         apt:
@@ -34,7 +40,7 @@ matrix:
             - g++-6
       env:
         - BUILD_NAME=GCC-6
-        - MATRIX_EVAL="export CC=gcc-6 && export CXX=g++-6"
+        - MATRIX_EVAL="export CC=gcc-6 && export CXX=g++-6 && export CXX_VERSION=c++1z"
     - os: linux
       addons:
         apt:
@@ -44,7 +50,7 @@ matrix:
             - g++-7
       env:
         - BUILD_NAME=GCC-7
-        - MATRIX_EVAL="export CC=gcc-7 && export CXX=g++-7"
+        - MATRIX_EVAL="export CC=gcc-7 && export CXX=g++-7 && export CXX_VERSION=c++17"
     - os: linux
       addons:
         apt:
@@ -54,28 +60,20 @@ matrix:
             - g++-8
       env:
         - BUILD_NAME=GCC-8
-        - MATRIX_EVAL="export CC=gcc-8 && export CXX=g++-8"
+        - MATRIX_EVAL="export CC=gcc-8 && export CXX=g++-8 && export CXX_VERSION=c++17"
     - os: osx
       osx_image: xcode9.2
-      before_install:
-        - eval "${MATRIX_EVAL}"
-        - $CC --version
-        - $CXX --version
       env:
         - BUILD_NAME=OSX-Clang
-        - MATRIX_EVAL="export CC=clang && export CXX=clang++"
+        - MATRIX_EVAL="export CC=clang && export CXX=clang++ && export CXX_VERSION=c++17"
     - os: linux
       addons:
         apt:
           packages:
             - clang
-      before_install:
-        - eval "${MATRIX_EVAL}"
-        - $CC --version
-        - $CXX --version
       env:
         - BUILD_NAME=Clang-3.4
-        - MATRIX_EVAL="export CC=clang && export CXX=clang++ && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang && export CXX=clang++ && export CXX_VERSION=c++1y && sudo apt-get remove gcc g++"
     - os: linux
       addons:
         apt:
@@ -83,13 +81,9 @@ matrix:
             - llvm-toolchain-trusty-3.9
           packages:
             - clang-3.9
-      before_install:
-        - eval "${MATRIX_EVAL}"
-        - $CC --version
-        - $CXX --version
       env:
         - BUILD_NAME=Clang-3
-        - MATRIX_EVAL="export CC=clang-3.9 && export CXX=clang++-3.9 && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang-3.9 && export CXX=clang++-3.9 && export CXX_VERSION=c++1z && sudo apt-get remove gcc g++"
     - os: linux
       addons:
         apt:
@@ -99,7 +93,7 @@ matrix:
             - clang-4.0
       env:
         - BUILD_NAME=Clang-4
-        - MATRIX_EVAL="export CC=clang-4.0 && export CXX=clang++-4.0 && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang-4.0 && export CXX=clang++-4.0 && export CXX_VERSION=c++17 && sudo apt-get remove gcc g++"
     - os: linux
       addons:
         apt:
@@ -109,7 +103,7 @@ matrix:
             - clang-5.0
       env:
         - BUILD_NAME=Clang-5
-        - MATRIX_EVAL="export CC=clang-5.0 && export CXX=clang++-5.0 && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang-5.0 && export CXX=clang++-5.0 && export CXX_VERSION=c++17 && sudo apt-get remove gcc g++"
     - os: linux
       addons:
         apt:
@@ -120,7 +114,7 @@ matrix:
             - clang-6.0
       env:
         - BUILD_NAME=Clang-6
-        - MATRIX_EVAL="export CC=clang-6.0 && export CXX=clang++-6.0 && sudo apt-get remove gcc g++"
+        - MATRIX_EVAL="export CC=clang-6.0 && export CXX=clang++-6.0 && export CXX_VERSION=c++17 && sudo apt-get remove gcc g++"
 
 before_install:
   - eval "${MATRIX_EVAL}"
