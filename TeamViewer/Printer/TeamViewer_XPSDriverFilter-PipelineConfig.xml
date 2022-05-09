@@ -1,0 +1,22 @@
+<Filters>
+   <Filter dll            = "TeamViewer_XPSDriverFilter.dll"
+           clsid          = "{40D118AB-04EA-4CFC-8C8B-85D1C7ECB046}"
+           name           = "TeamViewer_XPSDriverFilter1">
+           <Input   guid  = "{4d47a67c-66cc-4430-850e-daf466fe5bc4}" comment="IID_IPrintReadStream"/>
+           <Output  guid  = "{65bb7f1b-371e-4571-8ac7-912f510c1a38}" comment="IID_IPrintWriteStream"/>
+   </Filter>
+   <Filter dll            = "PDFRenderFilter.dll"
+           clsid          = "{CD087E95-A362-4A50-B233-20DC89DED268}"
+           name           = "MS XPS to PDF">
+           <Input  guid   = "{b8cf8530-5562-47c4-ab67-b1f69ecf961e}" Comment ="IID_IXpsDocumentProvider"/>
+           <Output guid   = "{65bb7f1b-371e-4571-8ac7-912f510c1a38}" comment="IID_IPrintWriteStream" />
+   </Filter>
+   <OptionalFilterServiceProvider dll="XpsRasterService.dll"/>
+   <Filter dll            = "TeamViewer_XPSDriverFilter.dll"
+           clsid          = "{40D118AB-04EA-4CFC-8C8B-85D1C7ECB046}"
+           name           = "TeamViewer_XPSDriverFilter2">
+           <Input   guid  = "{4d47a67c-66cc-4430-850e-daf466fe5bc4}" comment="IID_IPrintReadStream"/>
+           <Output  guid  = "{65bb7f1b-371e-4571-8ac7-912f510c1a38}" comment="IID_IPrintWriteStream"/> 
+   </Filter>
+</Filters>
+

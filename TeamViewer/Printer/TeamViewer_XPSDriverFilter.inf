@@ -1,0 +1,59 @@
+;
+; Copyright (c) 2022 TeamViewer GmbH
+;
+; All rights reserved.
+;
+[Version]
+Signature="$Windows NT$"
+Class=Printer
+ClassGuid={4d36e979-e325-11ce-bfc1-08002be10318}
+Provider=%ManufacturerName%
+CatalogFile=TeamViewer_XPSDriverFilter.cat
+ClassVer=4.0
+DriverVer=03/29/2022,1.2022.329.820
+
+[DestinationDirs]
+DefaultDestDir = 66000
+
+[SourceDisksNames]
+1 = ,,,\
+
+[SourceDisksFiles.x86]
+TeamViewer_XPSDriverFilter.gpd = 1
+TeamViewer_XPSDriverFilter-PipelineConfig.xml = 1
+TeamViewer_XPSDriverFilter.dll = 1,\x86
+TeamViewer_XPSDriverFilter-manifest.ini = 1
+
+[SourceDisksFiles.amd64]
+TeamViewer_XPSDriverFilter.gpd = 1
+TeamViewer_XPSDriverFilter-PipelineConfig.xml = 1
+TeamViewer_XPSDriverFilter.dll = 1,\x64
+TeamViewer_XPSDriverFilter-manifest.ini = 1
+
+[Manufacturer]
+"TeamViewer"=TeamViewer,NTamd64.6.1
+
+[TeamViewer]
+"TeamViewer Printer" = TeamViewer_XPSDriverFilter.gpd,,TeamViewer_XPS_Printer
+
+[TeamViewer.NTamd64.6.1]
+"TeamViewer Printer" = TeamViewer_XPSDriverFilter.gpd,,TeamViewer_XPS_Printer
+
+[TeamViewer_XPSDriverFilter.gpd]
+CopyFiles=TeamViewer_XPSDriverFilterFiles,ConfigPlugin
+DriverFile=mxdwdrv.dll
+ConfigFile=UniDrvUI.dll
+HelpFile=UniDrv.HLP
+Include=NTPRINT.INF
+Needs=UNIDRV.OEM, XPSGPD.OEM, XPSDRV.OEM
+
+[TeamViewer_XPSDriverFilterFiles]
+TeamViewer_XPSDriverFilter.gpd
+TeamViewer_XPSDriverFilter-PipelineConfig.xml
+TeamViewer_XPSDriverFilter.dll
+
+[ConfigPlugin]
+TeamViewer_XPSDriverFilter-manifest.ini
+
+[Strings]
+ManufacturerName="TeamViewer"

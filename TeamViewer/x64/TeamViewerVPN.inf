@@ -1,0 +1,151 @@
+; ****************************************************************************
+; * Copyright (C) 2021 TeamViewer Germany GmbH                               *
+; ****************************************************************************
+
+[Version]
+   Signature = "$Windows NT$"
+   CatalogFile = teamviewervpn.cat
+   ClassGUID = {4d36e972-e325-11ce-bfc1-08002be10318}
+   Provider = %Provider%
+   Class = Net
+
+; This version number should match the version
+; number given in ..\version.m4.
+   DriverVer = 10/08/2020,9.24.6.601
+
+[Strings]
+   DeviceDescription = "TeamViewer VPN Adapter"
+   Provider = "TeamViewer Germany GmbH"
+
+;----------------------------------------------------------------
+;                      Manufacturer + Product Section (Done)
+;----------------------------------------------------------------
+[Manufacturer]
+   %Provider% = teamviewervpn, NTamd64
+
+[teamviewervpn.NTamd64]
+   %DeviceDescription% = teamviewervpn.ndi, root\teamviewervpn ; Root enumerated
+   %DeviceDescription% = teamviewervpn.ndi, teamviewervpn      ; Legacy
+
+;---------------------------------------------------------------
+;                             Driver Section (Done)
+;---------------------------------------------------------------
+
+;----------------- Characteristics ------------
+;    NCF_PHYSICAL = 0x04
+;    NCF_VIRTUAL = 0x01
+;    NCF_SOFTWARE_ENUMERATED = 0x02
+;    NCF_HIDDEN = 0x08
+;    NCF_NO_SERVICE = 0x10
+;    NCF_HAS_UI = 0x80
+;----------------- Characteristics ------------
+
+[teamviewervpn.ndi]
+   CopyFiles       = teamviewervpn.driver, teamviewervpn.files
+   AddReg          = teamviewervpn.reg
+   AddReg          = teamviewervpn.params.reg
+   DelReg          = teamviewervpn.params.delreg
+   Characteristics = 0x1
+   *IfType            = 53  ; IF_TYPE_PROP_VIRTUAL
+   *MediaType         = 0x0 ; NdisMedium802_3
+   *PhysicalMediaType = 0   ; NdisPhysicalMediumUnspecified
+
+[teamviewervpn.ndi.Services]
+   AddService = teamviewervpn,        2, teamviewervpn.service
+
+[teamviewervpn.reg]
+   HKR, Ndi,            Service,      0, "teamviewervpn"
+   HKR, Ndi\Interfaces, UpperRange,   0, "ndis5"
+   HKR, Ndi\Interfaces, LowerRange,   0, "ethernet"
+   HKR, ,               Manufacturer, 0, "%Provider%"
+   HKR, ,               ProductName,  0, "%DeviceDescription%"
+
+[teamviewervpn.params.reg]
+   HKR, Ndi\params\MTU,                  ParamDesc, 0, "MTU"
+   HKR, Ndi\params\MTU,                  Type,      0, "int"
+   HKR, Ndi\params\MTU,                  Default,   0, "1500"
+   HKR, Ndi\params\MTU,                  Optional,  0, "0"
+   HKR, Ndi\params\MTU,                  Min,       0, "100"
+   HKR, Ndi\params\MTU,                  Max,       0, "1500"
+   HKR, Ndi\params\MTU,                  Step,      0, "1"
+   HKR, Ndi\params\MediaStatus,          ParamDesc, 0, "Media Status"
+   HKR, Ndi\params\MediaStatus,          Type,      0, "enum"
+   HKR, Ndi\params\MediaStatus,          Default,   0, "0"
+   HKR, Ndi\params\MediaStatus,          Optional,  0, "0"
+   HKR, Ndi\params\MediaStatus\enum,     "0",       0, "Application Controlled"
+   HKR, Ndi\params\MediaStatus\enum,     "1",       0, "Always Connected"
+   HKR, Ndi\params\NetworkAddress,       ParamDesc, 0, "MAC Address"
+   HKR, Ndi\params\NetworkAddress,       Type,      0, "edit"
+   HKR, Ndi\params\NetworkAddress,       Optional,  0, "1"
+   HKR, Ndi\params\AllowNonAdmin,        ParamDesc, 0, "Non-Admin Access"
+   HKR, Ndi\params\AllowNonAdmin,        Type,      0, "enum"
+   HKR, Ndi\params\AllowNonAdmin,        Default,   0, "1"
+   HKR, Ndi\params\AllowNonAdmin,        Optional,  0, "0"
+   HKR, Ndi\params\AllowNonAdmin\enum,   "0",       0, "Not Allowed"
+   HKR, Ndi\params\AllowNonAdmin\enum,   "1",       0, "Allowed"
+
+[teamviewervpn.params.delreg]
+   HKR, Ndi\params\MAC
+
+;----------------------------------------------------------------
+;                             Service Section
+;----------------------------------------------------------------
+
+;---------- Service Type -------------
+;    SERVICE_KERNEL_DRIVER     = 0x01
+;    SERVICE_WIN32_OWN_PROCESS = 0x10
+;---------- Service Type -------------
+
+;---------- Start Mode ---------------
+;    SERVICE_BOOT_START   = 0x0
+;    SERVICE_SYSTEM_START = 0x1
+;    SERVICE_AUTO_START   = 0x2
+;    SERVICE_DEMAND_START = 0x3
+;    SERVICE_DISABLED     = 0x4
+;---------- Start Mode ---------------
+
+[teamviewervpn.service]
+   DisplayName = %DeviceDescription%
+   ServiceType = 1
+   StartType = 3
+   ErrorControl = 1
+   LoadOrderGroup = NDIS
+   ServiceBinary = %12%\teamviewervpn.sys
+
+;-----------------------------------------------------------------
+;                                File Installation
+;-----------------------------------------------------------------
+
+;----------------- Copy Flags ------------
+;    COPYFLG_NOSKIP = 0x02
+;    COPYFLG_NOVERSIONCHECK = 0x04
+;----------------- Copy Flags ------------
+
+; SourceDisksNames
+; diskid = description[, [tagfile] [, <unused>, subdir]]
+; 1 = "Intel Driver Disk 1",e100bex.sys,,
+
+[SourceDisksNames]
+   1 = %DeviceDescription%, teamviewervpn.sys
+
+; SourceDisksFiles
+; filename_on_source = diskID[, [subdir][, size]]
+; e100bex.sys = 1,, ; on distribution disk 1
+
+[SourceDisksFiles]
+teamviewervpn.sys = 1
+
+[DestinationDirs]
+   teamviewervpn.files  = 11
+   teamviewervpn.driver = 12
+
+[teamviewervpn.files]
+;   TapPanel.cpl,,,6   ; COPYFLG_NOSKIP | COPYFLG_NOVERSIONCHECK
+;   cipsrvr.exe,,,6     ; COPYFLG_NOSKIP | COPYFLG_NOVERSIONCHECK
+
+[teamviewervpn.driver]
+   teamviewervpn.sys,,,6     ; COPYFLG_NOSKIP | COPYFLG_NOVERSIONCHECK
+
+;---------------------------------------------------------------
+;                                      End
+;---------------------------------------------------------------

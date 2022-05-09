@@ -1,0 +1,68 @@
+; Copyright 2010 TeamViewer GmbH All rights reserved.
+[Version]
+Signature="$WINDOWS NT$"
+Class=Monitor
+ClassGUID={4d36e96e-e325-11ce-bfc1-08002be10318}
+Provider= TeamViewer GmbH
+DriverVer=02/01/2017,1.02.0000
+CatalogFile=TVMonitor.cat
+
+[SourceDisksNames]
+3426 = %SourceName%
+
+[SourceDisksFiles]
+TVMonitor.sys    = 3426
+
+[DestinationDirs]
+DefaultDestDir = 10
+MonitorFunction_Files_Driver = 12
+
+[Manufacturer]
+%MfgName% = Driver_Mfg,NTAMD64
+
+[Driver_Mfg.NTAMD64]
+%Driver_DeviceDesc%=Driver_DDI, *PNP09FF
+
+[Driver_DDI.NT]
+CopyFiles=MonitorFunction_Files_Driver
+
+[Driver_DDI.NT.Services]
+Addservice = MonitorFunction, %FLG_ADDREG_NOCLOBBER%, MonitorFunction_Service
+
+[MonitorFunction_Service]
+DisplayName    = %MonitorFunction_SvcDesc%
+ServiceType    = %SERVICE_KERNEL_DRIVER%
+StartType      = %SERVICE_DEMAND_START%
+ErrorControl   = %SERVICE_ERROR_NORMAL%
+ServiceBinary  = %12%\TVMonitor.sys
+LoadOrderGroup = Extended Base
+
+[MonitorFunction_Files_Driver]
+TVMonitor.sys,,,2
+
+[Strings]
+Provider = "TeamViewer GmbH"
+MfgName  = "TeamViewer GmbH"
+MonitorFunction_SvcDesc = "Driver for Monitor"
+
+REG_SZ                      = 0x00000000
+REG_MULTI_SZ                = 0x00010000
+REG_EXPAND_SZ               = 0x00020000
+REG_BINARY                  = 0x00000001
+REG_DWORD                   = 0x00010001
+REG_NONE                    = 0x00020001
+
+SERVICE_KERNEL_DRIVER       = 0x00000001
+
+SERVICE_BOOT_START          = 0x0
+SERVICE_SYSTEM_START        = 0x1
+SERVICE_AUTO_START          = 0x2
+SERVICE_DEMAND_START        = 0x3
+SERVICE_DISABLED            = 0x4
+
+SERVICE_ERROR_NORMAL        = 0x00000001
+
+FLG_ADDREG_NOCLOBBER        = 0x00000002
+
+Driver_DeviceDesc="PnP-Monitor (Standard)"
+SourceName = "TeamViewer Download"
