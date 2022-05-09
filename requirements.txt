@@ -1,3 +1,0 @@
-frida
-python-telegram-bot
-requests
